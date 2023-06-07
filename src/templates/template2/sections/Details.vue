@@ -1,5 +1,5 @@
 <template>
-  <section class="center" id="who-are-we">
+  <section class="center template-section" id="who-are-we">
     <div class="home">
       <div class="home-left">
         <img src="https://flowbite.com/docs/images/blog/image-1.jpg" alt="" />

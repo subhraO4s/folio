@@ -21,3 +21,17 @@
   border-top-left-radius: 8px;
 }
 
+.custom-accordion > h2:first-child button {
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+}
+
+.custom-dropdown > button:first-child {
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+.custom-dropdown > button:last-child {
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}

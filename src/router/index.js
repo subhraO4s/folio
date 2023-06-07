@@ -2,8 +2,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Dashboard from '../views/Dashboard.vue'
 import Overview from '../views/Overview.vue'
 import TemplateView from '../views/Templates.vue'
-import Signup from '../views/Signup.vue'
-import Login from '../views/Login.vue'
+import Signup from '../views/auth/Signup.vue'
+import Login from '../views/auth/Login.vue'
+import VerificationLinkSent from '../views/auth/VerificationLinkSent.vue'
+import VerifyingEmail from '../views/auth/VerifyingEmail.vue'
+import ForgotPassword from '../views/auth/ForgotPassword.vue'
+import ResetPassword from '../views/auth/ResetPassword.vue'
 import UserDetails from '../views/Userdetails.vue'
 import Blogs from '../views/Blogs.vue'
 import Projects from '../views/Projects.vue'
@@ -13,7 +17,7 @@ import ActivePortfolio from '../views/ActivePortfolio.vue'
 import AllPortfolio from '../views/AllPortfolio.vue'
 import Template1 from '../templates/template1/view/Page.vue'
 import Template2 from '../templates/template2/view/Page.vue'
-import AddProject from '../views/AddProject.vue'
+import AddContent from '../views/AddContent.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +31,31 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/sjb',
+      name: 'sjb',
+      component: Login
+    },
+    {
+      path: '/verification-link-sent',
+      name: 'verification-link-sent',
+      component: VerificationLinkSent
+    },
+    {
+      path: '/verify-email',
+      name: 'verify-email',
+      component: VerifyingEmail
+    },
+    {
+      path: '/forgot-password',
+      name: 'forgot-password',
+      component: ForgotPassword
+    },
+    {
+      path: '/reset-password',
+      name: 'reset-password',
+      component: ResetPassword
     },
     {
       path: '/user-details',
@@ -61,7 +90,7 @@ const router = createRouter({
         {
           path: 'cms/projects/add',
           name: 'projects-add',
-          component: AddProject
+          component: AddContent
         },
         {
           path: 'cms/blogs',
@@ -71,7 +100,7 @@ const router = createRouter({
         {
           path: 'cms/blogs/add',
           name: 'blogs-add',
-          component: Blogs
+          component: AddContent
         },
         {
           path: 'support',

@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="main">
     <div class="home mt-16" id="home">
       <div class="home-left">
         <h4 class="color-primary mb-4">Award winning Company</h4>

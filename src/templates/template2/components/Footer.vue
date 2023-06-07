@@ -19,8 +19,8 @@
 
       <div class="footer__content" v-if="data.footerSection2.show">
         <h3 class="footer__title">{{ data.footerSection2.title.value }}</h3>
-        <ul>
-          <li v-for="(item, index) in data.footerSection2.child" :key="index">
+        <ul v-if="data.footerSection2.child.show">
+          <li v-for="(item, index) in data.footerSection2.child.value" :key="index">
             <a href="#" class="footer__link"> {{ item.value }} </a>
           </li>
         </ul>
@@ -28,8 +28,8 @@
 
       <div class="footer__content" v-if="data.footerSection3.show">
         <h3 class="footer__title">{{ data.footerSection3.title.value }}</h3>
-        <ul>
-          <li v-for="(item, index) in data.footerSection3.child" :key="index">
+        <ul v-if="data.footerSection3.child.show">
+          <li v-for="(item, index) in data.footerSection3.child.value" :key="index">
             <a href="#" class="footer__link"> {{ item.value }} </a>
           </li>
         </ul>
@@ -37,16 +37,18 @@
 
       <div class="footer__content" v-if="data.footerSection4.show">
         <h3 class="footer__title">{{ data.footerSection4.title.value }}</h3>
-        <ul>
-          <li v-for="(item, index) in data.footerSection4.child" :key="index">
+        <ul v-if="data.footerSection4.child.show">
+          <li v-for="(item, index) in data.footerSection4.child.value" :key="index">
             <a href="#" class="footer__link">{{ item.value }} </a>
           </li>
         </ul>
       </div>
     </div>
 
-    <p class="text-align-center color-secondary mt-10 mb-4">
-      &#169; 2023 TheAdvertisingAgency. All right reserved
+    <p class="text-align-center color-secondary mt-10 mb-4" v-if="data.footerSection5.show">
+      &#169; {{ new Date().getFullYear() }}
+      {{ data.footerSection5.copyRightBrand.show ? data.footerSection5.copyRightBrand.value : '' }},
+      All rights reserved
     </p>
   </footer>
 </template>

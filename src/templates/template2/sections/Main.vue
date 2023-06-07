@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="main">
     <div
       class="home mt-16"
       id="home"

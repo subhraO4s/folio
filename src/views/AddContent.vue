@@ -1,10 +1,6 @@
 <template>
   <section class="p-4 rounded-lg md:ml-64 h-auto pt-20">
-    <div
-      v-if="stage == 1"
-      class="flex flex-col items-center justify-center gap-8"
-      style="height: calc(100vh - 100px)"
-    >
+    <div v-if="stage == 1" class="flex flex-col items-center justify-center gap-8">
       <div class="grid grid-cols-4 w-4/5">
         <div class="col-span-full pb-8">
           <div class="space-y-4 md:space-y-6">
@@ -55,14 +51,51 @@
           >
           <Editor v-model="details" />
         </div>
-        <div class="col-start-2 col-span-2">
-          <button
-            type="submit"
-            @click="submitDetails"
-            class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-          >
-            Next
-          </button>
+        <div class="col-span-full lg:col-span-4 flex justify-between pb-4">
+          <div>
+            <a
+              href="#"
+              @click="goBackToCms"
+              type="button"
+              class="inline-flex text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+            >
+              <svg
+                fill="currentColor"
+                class="w-4 h-4 mr-2 -ml-1"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  clip-rule="evenodd"
+                  fill-rule="evenodd"
+                  d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z"
+                ></path>
+              </svg>
+              Back
+            </a>
+          </div>
+          <div>
+            <button
+              @click="submitDetails"
+              class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Next
+              <svg
+                fill="currentColor"
+                class="w-4 h-4 ml-2 rotate-180"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  clip-rule="evenodd"
+                  fill-rule="evenodd"
+                  d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z"
+                ></path>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -75,7 +108,7 @@
 <script>
 import Card from '../components/CmsCard.vue'
 import Editor from '../components/Editor/Editor.vue'
-import Preview from './ProjectPreview.vue'
+import Preview from './ContentPreview.vue'
 export default {
   components: {
     Card,
@@ -100,6 +133,12 @@ export default {
     },
     moveToPreviousStage() {
       this.stage--
+    },
+    goBackToCms() {
+      let finalRoute = this.$route.fullPath.split('/')
+      finalRoute.pop()
+      finalRoute = finalRoute.join('/')
+      this.$router.push(finalRoute)
     },
     generateData() {
       return {

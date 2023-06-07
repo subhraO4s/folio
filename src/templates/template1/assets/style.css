@@ -110,7 +110,7 @@ a {
   align-items: center;
 }
 
-section {
+.template-section {
   padding-top: 4rem;
   padding-bottom: 4rem;
   /* height: calc(100vh - 8rem); */

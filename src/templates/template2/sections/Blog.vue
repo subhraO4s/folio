@@ -1,5 +1,5 @@
 <template>
-  <section class="center" id="blog">
+  <section class="center template-section" id="blog">
     <div>
       <div class="home">
         <h1>Our Regular Updated Blog Posts</h1>

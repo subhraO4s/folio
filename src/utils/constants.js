@@ -16,3 +16,5 @@ export const ROUTE_MAP = new Map([
   [ALL_PORTFOLIO, '/dashboard/all-portfolio'],
   [ACTIVE_PORTFOLIO, '/dashboard/active-portfolio']
 ])
+export const LOCALSTORAGE_KEY = 'templateData'
+export const EDITMODE_LOCALSTORAGE_KEY = 'editMode'

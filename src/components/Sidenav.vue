@@ -244,8 +244,8 @@
         </li>
         <li>
           <a
-            href="#"
-            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
+            @click="logout"
+            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group cursor-pointer"
           >
             <svg
               fill="currentColor"
@@ -272,6 +272,7 @@
 </template>
 
 <script>
+import { account } from '@/utils/appwrite'
 import {
   OVERVIEW,
   TEMPLATE,
@@ -300,6 +301,16 @@ export default {
   methods: {
     routeTo(route) {
       this.$router.push(route)
+    },
+    async logout() {
+      try {
+        const result = await account.deleteSessions()
+        // call store changes
+        this.$store.dispatch('auth/saveLoginData', {
+          isLoggedIn: false,
+          sessionId: ''
+        })
+      } catch (error) {}
     }
   }
 }

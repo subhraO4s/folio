@@ -1,305 +1,90 @@
 <template>
   <section class="p-4 md:ml-64 h-auto pt-20">
     <div class="rounded-lg mb-4">
-      <div class="text-2xl font-medium tracking-tight text-gray-900 dark:text-white">
-        Active Protfolio Settings
-      </div>
-      <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-        Following is you active portfolio
-      </p>
-      <div class="grid grid-cols-1 mb-4 mt-4">
-        <div class="mt-8 code-example">
-          <div
-            class="w-full p-4 border border-gray-200 bg-gray-50 rounded-t-xl dark:border-gray-600 dark:bg-gray-700"
+      <div v-if="!isEditMode">
+        <div class="text-2xl font-medium tracking-tight text-gray-900 dark:text-white">
+          Active Protfolio
+        </div>
+        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+          Following is you active portfolio, this is visible to the world
+        </p>
+        <div class="flex flex-row-reverse mb-4 mt-4">
+          <button
+            @click="toggleEditMode"
+            class="max-md:w-full max-md:justify-center inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            <div class="grid grid-cols-3">
-              <div
-                class="items-center justify-center hidden col-start-2 col-span-1 space-x-2 sm:flex"
-              >
-                <button
-                  data-tooltip-target="default-table-example-full-screen-tooltip"
-                  class="flex items-center p-2 text-xs font-medium border border-gray-200 rounded-lg toggle-full-view hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-500 dark:bg-gray-800 focus:outline-none dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                  :class="[
-                    {
-                      'bg-gray-100 text-blue-700 dark:text-white dark:bg-gray-700':
-                        iframeWidth == FULL
-                    },
-                    {
-                      'text-gray-700 bg-white': iframeWidth != FULL
-                    }
-                  ]"
-                  @click="changeIframeWidth(FULL)"
-                >
-                  <span class="sr-only">Toggle full view asdfas {{ FULL }}</span
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                    class="w-4 h-4"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    ></path>
-                  </svg>
-                </button>
-
-                <div
-                  id="default-table-example-full-screen-tooltip"
-                  role="tooltip"
-                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  data-popper-placement="top"
-                  style="
-                    position: absolute;
-                    inset: auto auto 0px 0px;
-                    margin: 0px;
-                    transform: translate3d(350.5px, -239px, 0px);
-                  "
-                >
-                  Toggle full screen
-                  <div
-                    class="tooltip-arrow"
-                    data-popper-arrow=""
-                    style="position: absolute; left: 0px; transform: translate3d(67.5px, 0px, 0px)"
-                  ></div>
-                </div>
-
-                <button
-                  data-tooltip-target="default-table-example-tablet-tooltip"
-                  class="flex items-center p-2 text-xs font-medium border border-gray-200 rounded-lg toggle-tablet-view hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-500 dark:bg-gray-800 focus:outline-none dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                  :class="[
-                    {
-                      'bg-gray-100 text-blue-700 dark:text-white dark:bg-gray-700':
-                        iframeWidth == TABLET
-                    },
-                    {
-                      'text-gray-700 bg-white': iframeWidth != TABLET
-                    }
-                  ]"
-                  @click="changeIframeWidth(TABLET)"
-                >
-                  <span class="sr-only">Toggle tablet view</span
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                    class="w-4 h-4"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                    ></path>
-                  </svg>
-                </button>
-
-                <div
-                  id="default-table-example-tablet-tooltip"
-                  role="tooltip"
-                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  data-popper-placement="top"
-                  style="
-                    position: absolute;
-                    inset: auto auto 0px 0px;
-                    margin: 0px;
-                    transform: translate3d(390.5px, -239px, 0px);
-                  "
-                >
-                  Toggle tablet view
-                  <div
-                    class="tooltip-arrow"
-                    data-popper-arrow=""
-                    style="position: absolute; left: 0px; transform: translate3d(69.5px, 0px, 0px)"
-                  ></div>
-                </div>
-
-                <button
-                  data-tooltip-target="default-table-example-mobile-tooltip"
-                  class="flex items-center p-2 text-xs font-medium border border-gray-200 rounded-lg toggle-mobile-view hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-500 dark:bg-gray-800 focus:outline-none dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                  :class="[
-                    {
-                      'bg-gray-100 text-blue-700 dark:text-white dark:bg-gray-700':
-                        iframeWidth == MOBILE
-                    },
-                    {
-                      'text-gray-700 bg-white': iframeWidth != MOBILE
-                    }
-                  ]"
-                  @click="changeIframeWidth(MOBILE)"
-                >
-                  <span class="sr-only">Toggle mobile view -- {{ iframeWidth == MOBILE }}</span
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                    class="w-4 h-4"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
-                    ></path>
-                  </svg>
-                </button>
-
-                <div
-                  id="default-table-example-mobile-tooltip"
-                  role="tooltip"
-                  class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  data-popper-placement="top"
-                  style="
-                    position: absolute;
-                    inset: auto auto 0px 0px;
-                    margin: 0px;
-                    transform: translate3d(429.5px, -239px, 0px);
-                  "
-                >
-                  Toggle mobile view
-                  <div
-                    class="tooltip-arrow"
-                    data-popper-arrow=""
-                    style="position: absolute; left: 0px; transform: translate3d(72.5px, 0px, 0px)"
-                  ></div>
-                </div>
-              </div>
-              <div class="flex justify-end">
-                <svg
-                  @click="tooglePreview"
-                  class="w-6 h-6 shrink-0"
-                  :class="{ 'rotate-180': showPreview }"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          <div class="code-preview-wrapper border-b rounded-b-xl border-gray-200">
-            <div
-              id="default-table-example"
-              class="flex p-0 bg-white rounded-b-xl border-gray-200 bg-gradient-to-r code-preview dark:bg-gray-900 border-x border-b dark:border-gray-600"
+            Edit Site Settings
+            <svg
+              fill="currentColor"
+              class="w-4 ml-1 -mr-1"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
             >
-              <div class="w-full code-responsive-wrapper rounded-b-xl">
-                <iframe
-                  title="default table example"
-                  class="w-full h-0 mx-auto bg-white rounded-b-xl dark:bg-gray-900 iframe-code"
-                  src="/portfolio-templates/template-2"
-                  :class="[iframeClass, { hidden: !showPreview }]"
-                  frameborder="0"
-                  style="height: 100vh"
-                ></iframe>
-                <div
-                  class="flex items-center justify-center w-full p-5 bg-white dark:bg-gray-900 hidden"
-                  data-component-loader=""
-                >
-                  <div role="status">
-                    <svg
-                      aria-hidden="true"
-                      class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
-                      viewBox="0 0 100 101"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                        fill="currentColor"
-                      ></path>
-                      <path
-                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                        fill="currentFill"
-                      ></path>
-                    </svg>
-                    <span class="sr-only">Loading...</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+              <path
+                d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <div class="grid grid-cols-1 mb-4 mt-4">
+          <PortfolioViewerVue :src="'/portfolio-templates/template-2'" />
         </div>
       </div>
-
-      <div>
-        <div id="accordion-collapse" data-accordion="collapse">
-          <template v-for="(sections, index) in Object.keys(data)" :key="index">
-            <h2 :id="`accordion-collapse-heading-${index}`">
-              <button
-                type="button"
-                class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
-                :data-accordion-target="`#accordion-collapse-body-${index}`"
-                aria-expanded="true"
-                :aria-controls="`accordion-collapse-body-${index}`"
-              >
-                <span class="capitalize">{{ sections }}</span>
-                <svg
-                  data-accordion-icon
-                  class="w-6 h-6 rotate-180 shrink-0"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </button>
-            </h2>
-            <div
-              :id="`accordion-collapse-body-${index}`"
-              class="hidden"
-              aria-labelledby="accordion-collapse-heading-1"
+      <div v-else>
+        <div class="text-2xl font-medium tracking-tight text-gray-900 dark:text-white">
+          Edit Active Protfolio
+        </div>
+        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+          Following is you active portfolio, you can make changes using the site builder given
+          below, and see the preview, once your happy hit the <b>save</b> button and let the world
+          see the changes.
+        </p>
+        <div class="flex justify-between mb-4 mt-4">
+          <button
+            @click="toggleEditMode"
+            class="inline-flex items-center px-3 py-2 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+          >
+            <svg
+              fill="currentColor"
+              class="w-4 mr-1"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
             >
-              <div class="p-5 border border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-                <div
-                  v-for="(items, index) in Object.keys(data[sections])"
-                  class="pb-4"
-                  :key="index"
-                >
-                  <div>
-                    <label
-                      for="email"
-                      class="mb-2 text-sm font-medium text-gray-900 dark:text-white capitalize flex justify-between items-center"
-                    >
-                      <span>
-                        {{ items }}
-                      </span>
-
-                      <span>
-                        <ToggleVue v-model="data[sections][items].show" />
-                      </span>
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      id="email"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="name@company.com"
-                    />
-                  </div>
-
-                  <!-- {{ data[sections][items] }} -->
-                </div>
-              </div>
-            </div>
-          </template>
+              <path
+                clip-rule="evenodd"
+                fill-rule="evenodd"
+                d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z"
+              ></path>
+            </svg>
+            Cancel
+          </button>
+          <button
+            @click="toggleEditMode"
+            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Save Changes
+            <svg
+              fill="currentColor"
+              class="w-4 ml-1 -mr-1"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                clip-rule="evenodd"
+                fill-rule="evenodd"
+                d="M10 2c-1.716 0-3.408.106-5.07.31C3.806 2.45 3 3.414 3 4.517V17.25a.75.75 0 001.075.676L10 15.082l5.925 2.844A.75.75 0 0017 17.25V4.517c0-1.103-.806-2.068-1.93-2.207A41.403 41.403 0 0010 2z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <div class="grid grid-cols-1 mb-4 mt-4">
+          <PortfolioViewerVue :src="'/portfolio-templates/template-2'" />
+        </div>
+        <div>
+          <Accordion v-model="data" />
         </div>
       </div>
     </div>
@@ -307,25 +92,28 @@
 </template>
 
 <script>
+import { LOCALSTORAGE_KEY, EDITMODE_LOCALSTORAGE_KEY } from '../utils/constants'
 import ToggleVue from '../components/Toggle.vue'
+import Accordion from '../components/EditAccordion.vue'
+import PortfolioViewerVue from '../components/PortfolioViewer.vue'
+import Tab from '../components/Tab.vue'
 export default {
   components: {
-    ToggleVue
+    ToggleVue,
+    Accordion,
+    PortfolioViewerVue,
+    Tab
   },
   data() {
     return {
-      showPreview: false,
-      iframeWidth: 'FULL',
-      iframeClass: '',
-      FULL: 'FULL',
-      TABLET: 'TABLET',
-      MOBILE: 'MOBILE',
+      isEditMode: false,
       data: {
         navigation: {
+          show: true,
           brandName: {
             type: 'text',
             show: true,
-            value: 'Dentocare'
+            value: 'Mal'
           },
           heroSection: {
             type: 'text',
@@ -343,6 +131,7 @@ export default {
           }
         },
         heroSection: {
+          show: true,
           topHeading: {
             type: 'text',
             show: true,
@@ -371,6 +160,7 @@ export default {
           }
         },
         projectSection: {
+          show: true,
           topHeading: {
             type: 'text',
             show: true,
@@ -389,6 +179,7 @@ export default {
           }
         },
         footer: {
+          show: true,
           footerSection1: {
             show: true,
             brandName: {
@@ -409,24 +200,28 @@ export default {
               show: true,
               value: 'Services'
             },
-            child: [
-              {
-                link: '#',
-                value: 'SEO'
-              },
-              {
-                link: '#',
-                value: 'Marketing'
-              },
-              {
-                link: '#',
-                value: 'Advertisement'
-              },
-              {
-                link: '#',
-                value: 'Contact us'
-              }
-            ]
+            child: {
+              show: true,
+              type: 'array',
+              value: [
+                {
+                  link: '#',
+                  value: 'SEO'
+                },
+                {
+                  link: '#',
+                  value: 'Marketing'
+                },
+                {
+                  link: '#',
+                  value: 'Advertisement'
+                },
+                {
+                  link: '#',
+                  value: 'Contact us'
+                }
+              ]
+            }
           },
           footerSection3: {
             show: true,
@@ -435,24 +230,28 @@ export default {
               show: true,
               value: 'Company'
             },
-            child: [
-              {
-                link: '#',
-                value: 'Event'
-              },
-              {
-                link: '#',
-                value: 'Contact us'
-              },
-              {
-                link: '#',
-                value: 'Privacy policy'
-              },
-              {
-                link: '#',
-                value: 'Terms of services'
-              }
-            ]
+            child: {
+              show: true,
+              type: 'array',
+              value: [
+                {
+                  link: '#',
+                  value: 'Event'
+                },
+                {
+                  link: '#',
+                  value: 'Contact us'
+                },
+                {
+                  link: '#',
+                  value: 'Privacy policy'
+                },
+                {
+                  link: '#',
+                  value: 'Terms of services'
+                }
+              ]
+            }
           },
           footerSection4: {
             show: true,
@@ -461,58 +260,66 @@ export default {
               show: true,
               value: 'Contact Us'
             },
-            child: [
-              {
-                link: '#',
-                value: 'Somwhere in India'
-              },
-              {
-                link: '#',
-                value: 'Somewhere pincode'
-              },
-              {
-                link: '#',
-                value: '999 - 888 - 777'
-              },
-              {
-                link: '#',
-                value: 'theadvertisementagency.com@gmail.com'
-              }
-            ]
+            child: {
+              show: true,
+              type: 'array',
+              value: [
+                {
+                  link: '#',
+                  value: 'Somwhere in India'
+                },
+                {
+                  link: '#',
+                  value: 'Somewhere pincode'
+                },
+                {
+                  link: '#',
+                  value: '999 - 888 - 777'
+                },
+                {
+                  link: '#',
+                  value: 'theadvertisementagency.com@gmail.com'
+                }
+              ]
+            }
+          },
+          footerSection5: {
+            show: true,
+            copyRightBrand: {
+              type: 'text',
+              show: true,
+              value: 'Dentocare'
+            }
           }
         }
       }
     }
   },
   methods: {
-    changeIframeWidth(value) {
-      switch (value) {
-        case 'MOBILE': {
-          this.iframeWidth = 'MOBILE'
-          this.iframeClass = 'max-w-sm'
-          break
-        }
-        case 'TABLET': {
-          this.iframeWidth = 'TABLET'
-          this.iframeClass = 'max-w-lg'
-          break
-        }
-        default: {
-          this.iframeWidth = 'FULL'
-          this.iframeClass = ''
-        }
+    toggleEditMode() {
+      this.isEditMode = !this.isEditMode
+      window.localStorage.setItem(EDITMODE_LOCALSTORAGE_KEY, this.isEditMode)
+      if (this.isEditMode) {
+        this.setLocalStorage()
       }
     },
-    tooglePreview() {
-      this.showPreview = !this.showPreview
+    setLocalStorage() {
+      window.localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(this.data))
     }
+  },
+  watch: {
+    data: {
+      handler: function (new_value, old_value) {
+        this.setLocalStorage()
+      },
+      deep: true
+    }
+  },
+  mounted() {
+    window.localStorage.setItem(EDITMODE_LOCALSTORAGE_KEY, 'false')
+  },
+  beforeUnmount() {
+    window.localStorage.setItem(EDITMODE_LOCALSTORAGE_KEY, 'false')
   }
 }
 </script>
-
-<!-- <style scoped>
-.embedding {
-  width: 100%;
-  height: calc(100vh - 200px);
-}
-</style> -->

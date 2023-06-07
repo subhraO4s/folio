@@ -1,5 +1,5 @@
 <template>
-  <section class="center" id="mission">
+  <section class="center template-section" id="mission">
     <div class="home">
       <div class="home-left">
         <h4 class="color-primary mb-4">Our Mission and Goals</h4>
