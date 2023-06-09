@@ -9,7 +9,7 @@
             >
               Please Enter Project Details
             </h1>
-            <form class="space-y-4 md:space-y-6" action="#">
+            <form class="space-y-4 md:space-y-6">
               <div>
                 <label
                   for="project-title"
@@ -47,14 +47,13 @@
           <label
             for="project-details"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >Project Details</label
+            >Project Content</label
           >
-          <Editor v-model="details" />
+          <Editor v-model="content" />
         </div>
         <div class="col-span-full lg:col-span-4 flex justify-between pb-4">
           <div>
             <a
-              href="#"
               @click="goBackToCms"
               type="button"
               class="inline-flex text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
@@ -100,14 +99,22 @@
       </div>
     </div>
     <div v-else>
-      <Preview @goback="moveToPreviousStage" />
+      <Preview
+        @goback="moveToPreviousStage"
+        :title="title"
+        :abstract="abstract"
+        :content="content"
+        :isEditMode="isEditMode"
+        :documentId="storeDocumentId"
+      />
     </div>
   </section>
 </template>
 
 <script>
-import Card from '../components/CmsCard.vue'
-import Editor from '../components/Editor/Editor.vue'
+import { mapGetters } from 'vuex'
+import Card from '@/components/CmsCard.vue'
+import Editor from '@/components/Editor/Editor.vue'
 import Preview from './ContentPreview.vue'
 export default {
   components: {
@@ -120,12 +127,20 @@ export default {
       stage: 1,
       title: '',
       abstract: '',
-      details: ''
+      content: ''
     }
+  },
+  computed: {
+    ...mapGetters({
+      isEditMode: 'addContent/getIsEditMode',
+      storeTitle: 'addContent/getTitle',
+      storeAbstract: 'addContent/getAbstract',
+      storeContent: 'addContent/getContent',
+      storeDocumentId: 'addContent/getDocumentId'
+    })
   },
   methods: {
     submitDetails() {
-      this.$store.dispatch('addContent/saveAllData', this.generateData())
       this.moveToNextStage()
     },
     moveToNextStage() {
@@ -146,7 +161,20 @@ export default {
         abstract: this.abstract,
         details: this.details
       }
+    },
+    initializeWithStoreStatesInEditMode() {
+      if (this.isEditMode) {
+        this.title = this.storeTitle
+        this.abstract = this.storeAbstract
+        this.content = this.storeContent
+      }
     }
+  },
+  mounted() {
+    this.initializeWithStoreStatesInEditMode()
+  },
+  beforeUnmount() {
+    this.$store.dispatch('addContent/resetAllData')
   }
 }
 </script>

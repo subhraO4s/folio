@@ -2,11 +2,11 @@
   <div
     class="max-w-sm m-0 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
   >
-    <a href="#">
+    <a>
       <img class="rounded-t-lg" src="https://flowbite.com/docs/images/blog/image-1.jpg" alt="" />
     </a>
     <div class="p-5">
-      <a href="#">
+      <a>
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           {{ title }}
         </h5>
@@ -17,7 +17,6 @@
       <div class="flex justify-between">
         <a
           v-if="leftButtonText"
-          href="#"
           @click="leftButtonAction"
           class="inline-flex items-center px-3 py-2 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
         >
@@ -38,7 +37,6 @@
         </a>
         <a
           v-if="rightButtonAction"
-          href="#"
           @click="rightButtonAction"
           class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >

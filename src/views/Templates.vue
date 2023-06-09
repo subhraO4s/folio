@@ -20,29 +20,22 @@
 </template>
 
 <script>
+import { templateDetails } from '../utils/templateUtil'
 import Card from '../components/Card.vue'
-import TemplateImage1 from '@/assets/images/template-1.png'
 export default {
   components: {
     Card
   },
   data() {
     return {
-      templateData: [
-        {
-          name: 'Digital agency',
-          title: 'A Digital Design Agency Website',
-          details:
-            'A digital design agency website with dedicated blog and projects section and an amazing footer',
-          img: TemplateImage1,
-          leftButtonAction: () => {
-            window.open('/portfolio-templates/template-2', '_blank')
-          },
+      templateData: templateDetails.map((el) => {
+        return {
+          ...el,
           rightButtonAction: () => {
             this.publishTemplate()
           }
         }
-      ]
+      })
     }
   },
   methods: {

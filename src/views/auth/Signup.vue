@@ -1,10 +1,7 @@
 <template>
   <section class="bg-gray-50 dark:bg-gray-900">
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-      <a
-        href="#"
-        class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
-      >
+      <a class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
         <img
           class="w-8 h-8 mr-2"
           src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
@@ -21,7 +18,7 @@
           >
             Sign up to create your account
           </h1>
-          <form class="space-y-4 md:space-y-6" @submit.prevent="signup">
+          <form class="space-y-4 md:space-y-6" @submit.prevent="signupTheUser">
             <div>
               <label
                 for="email"
@@ -105,50 +102,51 @@
 </template>
 
 <script>
-import { account, ID } from '../../utils/appwrite'
+import { LOGGED_IN_KEY } from '@/utils/constants'
+import { setCookie } from '../../utils/cookieHelper'
+import { login, signup, sendVerificationEmail } from '../../api/apis'
 export default {
   data() {
     return {
-      user: 'test@testing.com',
+      email: 'nuxhody@mailto.plus',
       password: 'password'
     }
   },
   methods: {
-    async signup() {
-      // this.$router.push('/user-details')
+    async signupTheUser() {
       await this.signupUser()
       await this.loginUser()
-      await this.verifyEmail()
+      this.$router.push('/dashboard')
+      // await this.verifyEmail()
     },
     async loginUser() {
-      try {
-        const result = await account.createEmailSession(ID.unique(), this.user, this.password)
-        this.$store.dispatch('auth/saveLoginData', {
-          isLoggedIn: true,
-          sessionId: result.$id
-        })
-      } catch (error) {
-        console.log(error)
+      let resp = await login(this.email, this.password)
+      if (resp.success) {
+        resp = resp.data
+        this.$store.dispatch('auth/saveUserId', resp.userId)
+        // this.$store.dispatch('auth/saveLoginData', {
+        //   sessionId: resp.$id,
+        //   uid: resp.userId
+        // })
+        setCookie(LOGGED_IN_KEY, 1, resp.expire)
+        this.$router.push('/dashboard')
       }
     },
     async signupUser() {
-      try {
-        const result = await account.create(ID.unique(), this.user, this.password)
+      let resp = await signup(this.email, this.password)
+      if (resp.success) {
+        resp = resp.data
         this.$store.dispatch('auth/saveSingupData', {
           email: this.user,
-          uid: result.$id,
-          isVerified: result.emailVerification
+          uid: resp.$id,
+          isVerified: resp.emailVerification
         })
-      } catch (error) {
-        console.log(error)
       }
     },
     async verifyEmail() {
-      try {
-        const result = await account.createVerification('http://localhost:5173/verify-email')
+      let resp = await sendVerificationEmail('http://localhost:5173/verify-email')
+      if (resp.success) {
         this.$router.push('/verification-link-sent')
-      } catch (error) {
-        console.log(error)
       }
     }
   }

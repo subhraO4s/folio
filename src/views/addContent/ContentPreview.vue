@@ -4,12 +4,11 @@
       <div class="col-span-full lg:col-start-2 lg:col-span-4 pb-4">
         <h1 class="pb-1">{{ title }}</h1>
         <h4 class="pb-4">{{ abstract }}</h4>
-        <div v-html="details"></div>
+        <div v-html="content"></div>
       </div>
       <div class="col-span-full lg:col-start-2 lg:col-span-4 flex justify-between pb-4">
         <div>
           <a
-            href="#"
             @click="goBack"
             type="button"
             class="inline-flex text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
@@ -31,9 +30,9 @@
           </a>
         </div>
         <div>
-          <a
-            href="#"
-            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          <button
+            @click="publish"
+            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer"
           >
             Publish
             <svg
@@ -54,7 +53,7 @@
                 d="M5.752 12A13.07 13.07 0 008 14.248v4.002c0 .414.336.75.75.75a5 5 0 004.797-6.414 12.984 12.984 0 005.45-10.848.75.75 0 00-.735-.735 12.984 12.984 0 00-10.849 5.45A5 5 0 001 11.25c.001.414.337.75.751.75h4.002zM13 9a2 2 0 100-4 2 2 0 000 4z"
               ></path>
             </svg>
-          </a>
+          </button>
         </div>
       </div>
     </div>
@@ -62,18 +61,69 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { createProject, createBlog, editProject, editBlog } from '../../api/apis'
+import { STATUS_ENUM } from '@/utils/constants'
+const PROJECT_ROUTE_NAME = 'projects-add'
 export default {
-  computed: {
-    ...mapGetters({
-      title: 'addContent/getTitle',
-      abstract: 'addContent/getAbstract',
-      details: 'addContent/getDetails'
-    })
+  props: {
+    title: {
+      type: String,
+      defaut: ''
+    },
+    abstract: {
+      type: String,
+      defaut: ''
+    },
+    content: {
+      type: String,
+      defaut: ''
+    },
+    documentId: {
+      type: String,
+      defaut: ''
+    },
+    isEditMode: {
+      type: Boolean,
+      defaut: false
+    }
   },
   methods: {
     goBack() {
       this.$emit('goback')
+    },
+    generatePayload(isEditMode) {
+      return isEditMode
+        ? { title: this.title, abstract: this.abstract, content: this.content }
+        : {
+            title: this.title,
+            abstract: this.abstract,
+            content: this.content,
+            published_on: new Date().valueOf(),
+            status: STATUS_ENUM.ONLINE
+          }
+    },
+    publish() {
+      const isProject = this.$route.name == PROJECT_ROUTE_NAME
+      const payload = this.generatePayload(this.isEditMode)
+      let response
+      if (this.isEditMode) {
+        if (isProject) {
+          response = editProject(this.documentId, payload)
+        } else {
+          response = editBlog(this.documentId, payload)
+        }
+      } else {
+        if (isProject) {
+          response = createProject(payload)
+        } else {
+          response = createBlog(payload)
+        }
+      }
+      if (response.success) {
+        // go do somthing
+      } else {
+        // failure case show another popup
+      }
     }
   }
 }

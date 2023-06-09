@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { getUserIdFromUserName, getActivePortfolio } from '@/api/apis'
+import { getUserIdFromUserName, getProtfolioDocument } from '@/api/apis'
 import { defineAsyncComponent } from 'vue'
 import SpinnerVue from '../components/Spinner.vue'
 export default {
@@ -38,16 +38,21 @@ export default {
     async fetchUserDetails() {
       this.loadingTemplate = true
       const userName = this.$route.params.id
+      const docId = this.$route.params.doc
       let resp = await getUserIdFromUserName(userName)
       if (resp.success) {
         resp = resp.data
         this.$store.dispatch('auth/saveUserId', resp.uid)
-        resp = await getActivePortfolio()
+        this.uid = resp.uid
+        resp = await getProtfolioDocument(docId)
         if (resp.success) {
-          resp = resp.data
-          const concernedDoc = resp.documents.shift()
-          this.pageContent = JSON.parse(concernedDoc.content)
-          this.tid = concernedDoc.tid
+          if (resp.data.uid != this.uid) {
+            this.dataLoadFailed = true
+          } else {
+            resp = resp.data
+            this.pageContent = JSON.parse(resp.content)
+            this.tid = 1
+          }
         } else {
           this.dataLoadFailed = true
         }

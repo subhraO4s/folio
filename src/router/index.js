@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { getCookie } from '@/utils/cookieHelper'
+import { LOGGED_IN_KEY } from '@/utils/constants'
 import Dashboard from '../views/Dashboard.vue'
 import Overview from '../views/Overview.vue'
 import TemplateView from '../views/Templates.vue'
@@ -17,7 +19,9 @@ import ActivePortfolio from '../views/ActivePortfolio.vue'
 import AllPortfolio from '../views/AllPortfolio.vue'
 import Template1 from '../templates/template1/view/Page.vue'
 import Template2 from '../templates/template2/view/Page.vue'
-import AddContent from '../views/AddContent.vue'
+import AddContent from '../views/addContent/AddContent.vue'
+import PortfolioView from '../views/PortfolioView.vue'
+import HistoryPortfolioView from '../views/HistoryPortfolioView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,9 +37,17 @@ const router = createRouter({
       component: Login
     },
     {
-      path: '/sjb',
-      name: 'sjb',
-      component: Login
+      path: '/portfolio/:id',
+      name: 'portfolio-view',
+      component: PortfolioView
+    },
+    {
+      path: '/history/:id/:doc',
+      name: 'history-view',
+      component: HistoryPortfolioView,
+      meta: {
+        requires_auth: true
+      }
     },
     {
       path: '/verification-link-sent',
@@ -66,6 +78,9 @@ const router = createRouter({
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard,
+      meta: {
+        requires_auth: true
+      },
       children: [
         {
           path: '',
@@ -116,6 +131,11 @@ const router = createRouter({
           path: 'active-portfolio',
           name: 'active-portfolio',
           component: ActivePortfolio
+        },
+        {
+          path: 'manage-portfolio',
+          name: 'manage-portfolio',
+          component: ActivePortfolio
         }
       ]
     },
@@ -136,6 +156,29 @@ const router = createRouter({
       ]
     }
   ]
+})
+
+// Route guard
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = getCookie(LOGGED_IN_KEY)
+  console.log('ROuter', isLoggedIn)
+  if (to.matched.some((record) => record.meta.requires_auth)) {
+    if (isLoggedIn) {
+      next()
+    } else {
+      next({
+        path: '/login'
+      })
+    }
+  } else {
+    if (isLoggedIn && ['login', 'signup'].includes(to.name)) {
+      next({
+        path: '/dashboard'
+      })
+    } else {
+      next()
+    }
+  }
 })
 
 export default router

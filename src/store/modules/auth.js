@@ -1,6 +1,6 @@
 const getDetfaultValues = () => {
   return {
-    userEmail: '',
+    userName: '',
     userId: '',
     isVerified: false,
     isLoggedIn: false,
@@ -12,8 +12,8 @@ const auth = {
   namespaced: true,
   state: () => getDetfaultValues(),
   mutations: {
-    setUserEmail(state, new_state) {
-      state.userEmail = new_state
+    setUserName(state, new_state) {
+      state.userName = new_state
     },
     setIsLoggedIn(state, new_state) {
       state.isLoggedIn = new_state
@@ -29,8 +29,8 @@ const auth = {
     }
   },
   getters: {
-    getUserEmail(state) {
-      return state.userEmail
+    getUserName(state) {
+      return state.userName
     },
     getIsLoggedIn(state) {
       return state.isLoggedIn
@@ -47,19 +47,26 @@ const auth = {
   },
   actions: {
     saveSingupData(context, payload) {
-      context.commit('setUserEmail', payload.email)
-      context.commit('setUserId', payload.uid)
-      context.commit('setIsVerified', payload.isVerified)
+      if (payload.uid) {
+        context.commit('setUserId', payload.uid)
+      }
+      if (payload.isVerified) {
+        context.commit('setIsVerified', payload.isVerified)
+      }
     },
     saveLoginData(context, payload) {
-      context.commit('setIsLoggedIn', payload.isLoggedIn)
-      context.commit('setSessionId', payload.sessionId)
+      if (payload.sessionId) {
+        context.commit('setSessionId', payload.sessionId)
+      }
+      if (payload.uid) {
+        context.commit('setUserId', payload.uid)
+      }
     },
-    saveIsLogin(context, payload) {
-      context.commit('setIsLoggedIn', payload)
+    saveUserName(context, payload) {
+      context.commit('setUserName', payload)
     },
-    saveIsVerified(context, payload) {
-      context.commit('setIsVerified', payload)
+    saveUserId(context, payload) {
+      context.commit('setUserId', payload)
     }
   }
 }

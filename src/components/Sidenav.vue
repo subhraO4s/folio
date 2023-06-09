@@ -244,7 +244,7 @@
         </li>
         <li>
           <a
-            @click="logout"
+            @click="logoutUser"
             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group cursor-pointer"
           >
             <svg
@@ -272,7 +272,9 @@
 </template>
 
 <script>
-import { account } from '@/utils/appwrite'
+import { LOGGED_IN_KEY } from '@/utils/constants'
+import { deleteCookie } from '@/utils/cookieHelper'
+import { logout } from '@/api/apis'
 import {
   OVERVIEW,
   TEMPLATE,
@@ -302,15 +304,12 @@ export default {
     routeTo(route) {
       this.$router.push(route)
     },
-    async logout() {
-      try {
-        const result = await account.deleteSessions()
-        // call store changes
-        this.$store.dispatch('auth/saveLoginData', {
-          isLoggedIn: false,
-          sessionId: ''
-        })
-      } catch (error) {}
+    async logoutUser() {
+      const resp = await logout()
+      if (resp.success) {
+        deleteCookie(LOGGED_IN_KEY)
+        this.$router.push('/login')
+      }
     }
   }
 }
