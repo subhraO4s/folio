@@ -60,6 +60,7 @@ export default {
     },
     enterEditMode(data) {
       const payload = {
+        img: data.img,
         title: data.title,
         abstract: data.abstract,
         content: data.content,

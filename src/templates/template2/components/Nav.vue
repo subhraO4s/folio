@@ -1,17 +1,23 @@
 <template>
   <header class="header" :class="{ 'scroll-header': addBoxShadow }" id="header">
     <nav class="nav container" :class="{ 'dark-theme': addDarkTheme }">
-      <a href="#" class="nav__logo" v-if="data.brandName.show"> {{ data.brandName.value }} </a>
+      <a @click="routeToBase()" class="nav__logo" v-if="data.brandName.show">
+        {{ data.brandName.value }}
+      </a>
       <div v-else></div>
       <div class="nav__menu" :class="{ 'show-menu': openMenu }" id="nav-menu">
         <ul class="nav__list">
           <li class="nav__item">
-            <a href="#home" class="nav__link active-link" v-if="data.heroSection.show">
+            <a
+              @click="routeToBase('home')"
+              class="nav__link active-link"
+              v-if="data.heroSection.show"
+            >
               {{ data.heroSection.value }}
             </a>
           </li>
           <li class="nav__item">
-            <a href="#about" class="nav__link" v-if="data.aboutSection.show">
+            <a @click="routeToBase('about')" class="nav__link" v-if="data.aboutSection.show">
               {{ data.aboutSection.value }}
             </a>
           </li>
@@ -70,6 +76,21 @@ export default {
     },
     toggleDarkMode() {
       this.addDarkTheme = !this.addDarkTheme
+    },
+    routeToBase(id) {
+      const route = this.$route.fullPath.split('/')
+      const noOfPopsToBasePath = this.$route.meta.noOfPopsToBasePath
+      for (let i = 0; i < noOfPopsToBasePath; i++) {
+        route.pop()
+      }
+      const finalROute = route.join('/')
+      this.$router.push(finalROute)
+      if (id) {
+        const element = document.getElementById(id)
+        if (element) {
+          element.scrollIntoView()
+        }
+      }
     }
   },
   created() {

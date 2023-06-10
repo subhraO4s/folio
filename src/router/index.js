@@ -22,6 +22,8 @@ import Template2 from '../templates/template2/view/Page.vue'
 import AddContent from '../views/addContent/AddContent.vue'
 import PortfolioView from '../views/PortfolioView.vue'
 import HistoryPortfolioView from '../views/HistoryPortfolioView.vue'
+import ListView from '../templates/template2/view/ListView.vue'
+import IndividualView from '../templates/template2/view/IndividualView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,16 +40,64 @@ const router = createRouter({
     },
     {
       path: '/portfolio/:id',
-      name: 'portfolio-view',
-      component: PortfolioView
+      children: [
+        {
+          path: '',
+          name: 'portfolio-view',
+          component: PortfolioView,
+          meta: {
+            noOfPopsToBasePath: 0
+          }
+        },
+        {
+          path: 'blogs',
+          name: 'blogs-portfolio-view',
+          component: PortfolioView,
+          meta: {
+            noOfPopsToBasePath: 1
+          }
+        },
+        {
+          path: 'blogs/:doc',
+          name: 'blog-portfolio-view',
+          component: PortfolioView,
+          meta: {
+            noOfPopsToBasePath: 2
+          }
+        }
+      ]
     },
     {
-      path: '/history/:id/:doc',
-      name: 'history-view',
-      component: HistoryPortfolioView,
+      path: '/history/:id/:d',
       meta: {
         requires_auth: true
-      }
+      },
+      children: [
+        {
+          path: '',
+          name: 'history-view',
+          component: HistoryPortfolioView,
+          meta: {
+            noOfPopsToBasePath: 0
+          }
+        },
+        {
+          path: 'blogs',
+          name: 'blogs-history-view',
+          component: HistoryPortfolioView,
+          meta: {
+            noOfPopsToBasePath: 1
+          }
+        },
+        {
+          path: 'blogs/:doc',
+          name: 'blog-history-view',
+          component: HistoryPortfolioView,
+          meta: {
+            noOfPopsToBasePath: 2
+          }
+        }
+      ]
     },
     {
       path: '/verification-link-sent',
@@ -133,7 +183,7 @@ const router = createRouter({
           component: ActivePortfolio
         },
         {
-          path: 'manage-portfolio',
+          path: 'manage-portfolio/:id',
           name: 'manage-portfolio',
           component: ActivePortfolio
         }
@@ -150,8 +200,35 @@ const router = createRouter({
         },
         {
           path: 'template-2',
-          name: 'template-2',
-          component: Template2
+          meta: {
+            isTemplate: true
+          },
+          children: [
+            {
+              path: '',
+              name: 'template-2',
+              component: Template2,
+              meta: {
+                noOfPopsToBasePath: 0
+              }
+            },
+            {
+              path: 'blogs',
+              name: 'blogs-template-2',
+              component: ListView,
+              meta: {
+                noOfPopsToBasePath: 1
+              }
+            },
+            {
+              path: 'blogs/:doc',
+              name: 'blog-template-2',
+              component: IndividualView,
+              meta: {
+                noOfPopsToBasePath: 2
+              }
+            }
+          ]
         }
       ]
     }

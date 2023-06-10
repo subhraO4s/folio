@@ -2,6 +2,7 @@ const getDetfaultValues = () => {
   return {
     isEditMode: false,
     documentId: '',
+    img: '',
     title: '',
     abstract: '',
     content: ''
@@ -13,6 +14,9 @@ const addContent = {
   mutations: {
     resetState(state, new_state) {
       state = getDetfaultValues()
+    },
+    setImg(state, new_state) {
+      state.img = new_state
     },
     setIsEditMode(state, new_state) {
       state.isEditMode = new_state
@@ -31,6 +35,9 @@ const addContent = {
     }
   },
   getters: {
+    getImg(state) {
+      return state.img
+    },
     getIsEditMode(state) {
       return state.isEditMode
     },
@@ -49,6 +56,7 @@ const addContent = {
   },
   actions: {
     saveAllData(context, payload) {
+      context.commit('setImg', payload.img)
       context.commit('setTitle', payload.title)
       context.commit('setAbstract', payload.abstract)
       context.commit('setContent', payload.content)

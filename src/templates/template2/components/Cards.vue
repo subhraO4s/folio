@@ -1,21 +1,15 @@
 <template>
   <div class="about-us-card">
     <div>
-      <img
-        v-if="cardType == 'blog'"
-        src="https://flowbite.com/docs/images/blog/image-1.jpg"
-        alt=""
-      />
-      <img v-else src="https://flowbite.com/docs/images/blog/image-1.jpg" alt="" />
+      <img v-if="cardType == 'blog'" :src="img ? img : templateImage" alt="" />
+      <img v-else :src="img ? img : templateImage" alt="" />
     </div>
-    <h3 class="mb-4">Search Engine Optimization</h3>
+    <h3 class="mb-4">{{ title }}</h3>
     <h5 class="mb-4 color-secondary">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-      laboris nisi ut aliquip ex ea commodo consequatP
+      {{ details }}
     </h5>
-    <a href="" class="explore-link">
-      <span v-if="cardType == 'blog'"> 5min Read</span>
+    <a @click="goToIndividualPost" class="explore-link">
+      <span v-if="cardType == 'blog'">Read</span>
       <span v-else>Explore More</span>
       ->
     </a>
@@ -23,14 +17,45 @@
 </template>
 
 <script>
+import templateImage from '@/assets/images/template-1.png'
 export default {
   props: {
     cardType: {
       type: String,
       default: 'services'
     },
-    title: {},
-    details: {}
+    img: {
+      type: String,
+      default: 'services'
+    },
+    title: {
+      type: String,
+      default: 'Search Engine Optimization'
+    },
+    details: {
+      type: String,
+      default:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequatP'
+    },
+    docId: {
+      type: String,
+      default: ''
+    }
+  },
+  data() {
+    return {
+      templateImage: templateImage
+    }
+  },
+  methods: {
+    goToIndividualPost() {
+      const noOfPopsToBasePath = this.$route.meta.noOfPopsToBasePath
+      const finalRoute =
+        noOfPopsToBasePath == 0
+          ? this.$route.path + '/blogs/' + this.docId
+          : this.$route.path + '/' + this.docId
+      this.$router.push(finalRoute)
+    }
   }
 }
 </script>

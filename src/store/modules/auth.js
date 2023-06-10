@@ -2,9 +2,12 @@ const getDetfaultValues = () => {
   return {
     userName: '',
     userId: '',
+    email: '',
+    name: '',
     isVerified: false,
     isLoggedIn: false,
-    sessionId: ''
+    sessionId: '',
+    tids: [1, 2, 3]
   }
 }
 
@@ -14,6 +17,12 @@ const auth = {
   mutations: {
     setUserName(state, new_state) {
       state.userName = new_state
+    },
+    setEmail(state, new_state) {
+      state.email = new_state
+    },
+    setName(state, new_state) {
+      state.name = new_state
     },
     setIsLoggedIn(state, new_state) {
       state.isLoggedIn = new_state
@@ -32,6 +41,12 @@ const auth = {
     getUserName(state) {
       return state.userName
     },
+    getEmail(state) {
+      return state.email
+    },
+    getName(state) {
+      return state.name
+    },
     getIsLoggedIn(state) {
       return state.isLoggedIn
     },
@@ -43,6 +58,9 @@ const auth = {
     },
     getUserId(state) {
       return state.userId
+    },
+    getTids(state) {
+      return state.tids
     }
   },
   actions: {
@@ -64,6 +82,17 @@ const auth = {
     },
     saveUserName(context, payload) {
       context.commit('setUserName', payload)
+    },
+    saveAccountData(context, payload) {
+      if (payload.uid) {
+        context.commit('setUserId', payload.uid)
+      }
+      if (payload.email) {
+        context.commit('setEmail', payload.email)
+      }
+      if (payload.name) {
+        context.commit('setName', payload.name)
+      }
     },
     saveUserId(context, payload) {
       context.commit('setUserId', payload)

@@ -10,7 +10,13 @@
     </template>
     <template v-else>
       <template v-if="tid == 1">
-        <Template1 :pageData="pageContent" />
+        <template v-if="$route.name == 'blogs-history-view'">
+          <Template1ListView :pageData="pageContent" />
+        </template>
+        <template v-else-if="$route.name == 'blog-history-view'">
+          <Template1IndividualView :pageData="pageContent" />
+        </template>
+        <template v-else> <Template1 :pageData="pageContent" /></template>
       </template>
     </template>
   </template>
@@ -23,7 +29,13 @@ import SpinnerVue from '../components/Spinner.vue'
 export default {
   components: {
     SpinnerVue,
-    Template1: defineAsyncComponent(() => import('../templates/template2/view/Page.vue'))
+    Template1: defineAsyncComponent(() => import('../templates/template2/view/Page.vue')),
+    Template1ListView: defineAsyncComponent(() =>
+      import('../templates/template2/view/ListView.vue')
+    ),
+    Template1IndividualView: defineAsyncComponent(() =>
+      import('../templates/template2/view/IndividualView.vue')
+    )
   },
   data() {
     return {
@@ -38,7 +50,7 @@ export default {
     async fetchUserDetails() {
       this.loadingTemplate = true
       const userName = this.$route.params.id
-      const docId = this.$route.params.doc
+      const docId = this.$route.params.d
       let resp = await getUserIdFromUserName(userName)
       if (resp.success) {
         resp = resp.data

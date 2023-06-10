@@ -46,7 +46,12 @@ export default {
         let resp = await getAccount()
         if (resp.success) {
           resp = resp.data
-          this.$store.dispatch('auth/saveUserId', resp.$id)
+          const payload = {
+            uid: resp.$id,
+            email: resp.email,
+            name: resp.name
+          }
+          this.$store.dispatch('auth/saveAccountData', payload)
         }
       }
     },

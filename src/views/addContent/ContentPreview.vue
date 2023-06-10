@@ -31,7 +31,7 @@
         </div>
         <div>
           <button
-            @click="publish"
+            @click="showPublishModal"
             class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer"
           >
             Publish
@@ -58,14 +58,53 @@
       </div>
     </div>
   </section>
+
+  <Modal :id="modalId">
+    <div v-if="publishing" class="py-6">
+      <SpinnerVue />
+    </div>
+    <div
+      class="py-6 leading-tight tracking-tight text-gray-800 text-xl font-medium dark:text-white text-center"
+      v-else
+    >
+      {{ modalText }}
+    </div>
+    <div class="flex gap-4 justify-center items-center" v-if="publishedStatus">
+      <a
+        @click="hideModal"
+        class="inline-flex items-center px-3 py-2 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+      >
+        No
+      </a>
+      <a
+        @click="publish"
+        class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      >
+        Yes
+      </a>
+    </div>
+  </Modal>
 </template>
 
 <script>
 import { createProject, createBlog, editProject, editBlog } from '../../api/apis'
 import { STATUS_ENUM } from '@/utils/constants'
+import Modal from '@/components/Modal.vue'
+import { openModal, closeModal } from '@/utils/modalFunctions'
+import SpinnerVue from '../../components/Spinner.vue'
 const PROJECT_ROUTE_NAME = 'projects-add'
+
 export default {
+  components: {
+    Modal,
+    SpinnerVue
+  },
+  emits: ['goback'],
   props: {
+    img: {
+      type: String,
+      defaut: ''
+    },
     title: {
       type: String,
       defaut: ''
@@ -87,14 +126,25 @@ export default {
       defaut: false
     }
   },
+  data() {
+    return {
+      modalId: 'content-publish',
+      modalText: '',
+      PUBLISH_POPUP_TEXT: 'Are you sure you want to publish ? ',
+      FAILURE_POP_UP_TEXT: 'We could not publish, please try again later',
+      publishedStatus: true,
+      publishing: false
+    }
+  },
   methods: {
     goBack() {
       this.$emit('goback')
     },
     generatePayload(isEditMode) {
       return isEditMode
-        ? { title: this.title, abstract: this.abstract, content: this.content }
+        ? { img: this.img, title: this.title, abstract: this.abstract, content: this.content }
         : {
+            img: this.img,
             title: this.title,
             abstract: this.abstract,
             content: this.content,
@@ -102,27 +152,49 @@ export default {
             status: STATUS_ENUM.ONLINE
           }
     },
-    publish() {
+    showPublishModal() {
+      this.modalText = this.PUBLISH_POPUP_TEXT
+      this.publishedStatus = true
+      openModal(this.modalId)
+    },
+    showFailureModal() {
+      this.modalText = this.FAILURE_POP_UP_TEXT
+      this.publishedStatus = false
+      openModal(this.modalId)
+    },
+    hideModal() {
+      closeModal(this.modalId)
+    },
+    async publish() {
+      this.publishing = true
       const isProject = this.$route.name == PROJECT_ROUTE_NAME
       const payload = this.generatePayload(this.isEditMode)
       let response
       if (this.isEditMode) {
         if (isProject) {
-          response = editProject(this.documentId, payload)
+          response = await editProject(this.documentId, payload)
         } else {
-          response = editBlog(this.documentId, payload)
+          response = await editBlog(this.documentId, payload)
         }
       } else {
         if (isProject) {
-          response = createProject(payload)
+          response = await createProject(payload)
         } else {
-          response = createBlog(payload)
+          response = await createBlog(payload)
         }
       }
+      console.log(response)
+      this.publishing = false
       if (response.success) {
         // go do somthing
+        let route = this.$route.fullPath.split('/')
+        route.pop()
+        route = route.join('/')
+        this.$router.push(route)
       } else {
         // failure case show another popup
+        this.hideModal()
+        this.showFailureModal()
       }
     }
   }

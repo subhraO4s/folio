@@ -28,6 +28,7 @@ import Projects from '../sections/About.vue'
 import Blog from '../sections/Blog.vue'
 import Details from '../sections/Details.vue'
 import Mission from '../sections/Mission.vue'
+import ListView from './ListView.vue'
 const tid = 1
 export default {
   components: {
@@ -38,7 +39,8 @@ export default {
     Projects,
     Blog,
     Details,
-    Mission
+    Mission,
+    ListView
   },
   props: {
     pageData: {
@@ -47,6 +49,9 @@ export default {
   },
   data() {
     return {
+      view: 'LANDING',
+      LANDING: 'LANDING',
+      LIST_VIEW: '',
       loading: true,
       isEditMode: window.localStorage.getItem(EDITMODE_LOCALSTORAGE_KEY) == 'true' ? true : false,
       data: templateDetails.find((el) => el.tid == tid).content,

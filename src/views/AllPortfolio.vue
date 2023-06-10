@@ -78,7 +78,8 @@ export default {
               window.open(historyUrl, '_blank')
             },
             rightButtonAction: () => {
-              window.open(historyUrl, '_blank')
+              // this.$store.dispatch('managePortfolio/saveDocumentId', el.$id)
+              this.$router.push('manage-portfolio/'+el.$id)
             }
           }
           return obj
