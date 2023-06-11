@@ -5,70 +5,21 @@
     id="drawer-navigation"
   >
     <div class="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
-      <!-- <form action="#" method="GET" class="md:hidden mb-2">
-        <label for="sidebar-search" class="sr-only">Search</label>
-        <div class="relative">
-          <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-            <svg
-              class="w-5 h-5 text-gray-500 dark:text-gray-400"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-              ></path>
-            </svg>
-          </div>
-          <input
-            type="text"
-            name="search"
-            id="sidebar-search"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-            placeholder="Search"
-          />
-        </div>
-      </form> -->
       <ul class="space-y-2">
-        <li>
-          <a
-            href="#"
-            @click="routeTo(routes.get(OVERVIEW))"
-            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-            :class="{
-              'bg-gray-100 dark:bg-gray-700': this.$route.fullPath == routes.get(OVERVIEW)
-            }"
-          >
-            <svg
-              class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path
-                d="M7 3.5A1.5 1.5 0 018.5 2h3.879a1.5 1.5 0 011.06.44l3.122 3.12A1.5 1.5 0 0117 6.622V12.5a1.5 1.5 0 01-1.5 1.5h-1v-3.379a3 3 0 00-.879-2.121L10.5 5.379A3 3 0 008.379 4.5H7v-1z"
-              ></path>
-              <path
-                d="M4.5 6A1.5 1.5 0 003 7.5v9A1.5 1.5 0 004.5 18h7a1.5 1.5 0 001.5-1.5v-5.879a1.5 1.5 0 00-.44-1.06L9.44 6.439A1.5 1.5 0 008.378 6H4.5z"
-              ></path>
-            </svg>
-            <span class="ml-3">Overview</span>
-          </a>
-        </li>
         <li>
           <a
             href="#"
             @click="routeTo(routes.get(ALL_PORTFOLIO))"
             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             :class="{
-              'bg-gray-100 dark:bg-gray-700': this.$route.fullPath == routes.get(ALL_PORTFOLIO)
+              'active-side-nav-link': this.$route.fullPath == routes.get(ALL_PORTFOLIO)
             }"
           >
             <svg
               class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+              :class="{
+                'text-gray-900 dark:text-white': this.$route.fullPath == routes.get(ALL_PORTFOLIO)
+              }"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -89,10 +40,17 @@
             type="button"
             @click="routeTo(routes.get(ACTIVE_PORTFOLIO))"
             class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+            :class="{
+              'active-side-nav-link': this.$route.fullPath == routes.get(ACTIVE_PORTFOLIO)
+            }"
           >
             <svg
               aria-hidden="true"
               class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+              :class="{
+                'text-gray-900 dark:text-white':
+                  this.$route.fullPath == routes.get(ACTIVE_PORTFOLIO)
+              }"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -111,10 +69,16 @@
             href="#"
             @click="routeTo(routes.get(TEMPLATE))"
             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            :class="{
+              'active-side-nav-link': this.$route.fullPath == routes.get(TEMPLATE)
+            }"
           >
             <svg
               aria-hidden="true"
               class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+              :class="{
+                'text-gray-900 dark:text-white': this.$route.fullPath == routes.get(TEMPLATE)
+              }"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -133,9 +97,15 @@
             type="button"
             @click="routeTo(routes.get(PROJECTS))"
             class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+            :class="{
+              'active-side-nav-link': this.$route.fullPath == routes.get(PROJECTS)
+            }"
           >
             <svg
               class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+              :class="{
+                'text-gray-900 dark:text-white': this.$route.fullPath == routes.get(PROJECTS)
+              }"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -155,9 +125,15 @@
             href="#"
             @click="routeTo(routes.get(BLOGS))"
             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            :class="{
+              'active-side-nav-link': this.$route.fullPath == routes.get(BLOGS)
+            }"
           >
             <svg
               class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+              :class="{
+                'text-gray-900 dark:text-white': this.$route.fullPath == routes.get(BLOGS)
+              }"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -180,9 +156,15 @@
             href="#"
             @click="routeTo(routes.get(SETTINGS))"
             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
+            :class="{
+              'active-side-nav-link': this.$route.fullPath == routes.get(SETTINGS)
+            }"
           >
             <svg
               fill="currentColor"
+              :class="{
+                'text-gray-900 dark:text-white': this.$route.fullPath == routes.get(SETTINGS)
+              }"
               class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -202,9 +184,15 @@
             href="#"
             @click="routeTo(routes.get(CHANGE_PASSWORD))"
             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
+            :class="{
+              'active-side-nav-link': this.$route.fullPath == routes.get(CHANGE_PASSWORD)
+            }"
           >
             <svg
               class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+              :class="{
+                'text-gray-900 dark:text-white': this.$route.fullPath == routes.get(CHANGE_PASSWORD)
+              }"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -291,3 +279,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.active-side-nav-link {
+  @apply bg-gray-100 dark:bg-gray-700;
+}
+</style>

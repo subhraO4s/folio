@@ -12,7 +12,7 @@
       <div class="pb-8">
         <img
           class="rounded-full w-40 h-40 border"
-          src="https://flowbite.com/docs/images/examples/image-4@2x.jpg"
+          :src="storeImageLink ? storeImageLink : imageLink"
           alt="image description"
         />
       </div>
@@ -165,9 +165,10 @@
 </template>
 
 <script>
-import { debounce } from '@/utils/helpers'
-import { updateUserSettings, checkUserNameExsists } from '../api/apis'
 import { mapGetters } from 'vuex'
+import { debounce } from '@/utils/helpers'
+import { updateUserSettings, checkUserNameExsists, getAvatar } from '../api/apis'
+import defaultImage from '../assets/images/avatar.jpg'
 export default {
   data() {
     return {
@@ -179,14 +180,16 @@ export default {
       passwordVisibility: false,
       chageLog: new Map(),
       checkingUserNameStatus: false,
-      userNameIsValid: true
+      userNameIsValid: true,
+      imageLink: defaultImage
     }
   },
   computed: {
     ...mapGetters({
       storeUserName: 'auth/getUserName',
       storeEmail: 'auth/getEmail',
-      storeName: 'auth/getName'
+      storeName: 'auth/getName',
+      storeImageLink: 'auth/getAvatar'
     })
   },
   methods: {

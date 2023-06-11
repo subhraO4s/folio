@@ -57,8 +57,8 @@
         >
           <span class="sr-only">Open user menu</span>
           <img
-            class="w-8 h-8 rounded-full"
-            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png"
+            class="w-8 h-8 rounded-full border-none bg-white"
+            :src="imageLink"
             alt="user photo"
           />
         </button>
@@ -66,3 +66,27 @@
     </div>
   </nav>
 </template>
+
+<script>
+import defaultImage from '../assets/images/avatar.jpg'
+import { getAvatar } from '../api/apis'
+export default {
+  data() {
+    return {
+      imageLink: defaultImage
+    }
+  },
+  methods: {
+    async getImage() {
+      const resp = await getAvatar()
+      if (resp.success) {
+        this.imageLink = resp.data.href
+        this.$store.dispatch('auth/saveAvatar', this.imageLink)
+      }
+    }
+  },
+  mounted() {
+    this.getImage()
+  }
+}
+</script>

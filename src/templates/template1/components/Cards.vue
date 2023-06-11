@@ -57,7 +57,7 @@ export default {
       this.$router.push(finalRoute)
     },
     getImageLink() {
-      return this.img && this.img.length > 0 ? img : this.defaultImage
+      return this.img && this.img.length > 0 ? this.img : this.defaultImage
     }
   }
 }

@@ -7,6 +7,7 @@ const getDetfaultValues = () => {
     isVerified: false,
     isLoggedIn: false,
     sessionId: '',
+    avatar: '',
     tids: [1, 2, 3]
   }
 }
@@ -20,6 +21,9 @@ const auth = {
     },
     setEmail(state, new_state) {
       state.email = new_state
+    },
+    setAvatar(state, new_state) {
+      state.avatar = new_state
     },
     setName(state, new_state) {
       state.name = new_state
@@ -40,6 +44,9 @@ const auth = {
   getters: {
     getUserName(state) {
       return state.userName
+    },
+    getAvatar(state) {
+      return state.avatar
     },
     getEmail(state) {
       return state.email
@@ -96,6 +103,9 @@ const auth = {
     },
     saveUserId(context, payload) {
       context.commit('setUserId', payload)
+    },
+    saveAvatar(context, payload) {
+      context.commit('setAvatar', payload)
     }
   }
 }

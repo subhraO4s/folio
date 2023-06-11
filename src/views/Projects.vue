@@ -69,6 +69,7 @@ export default {
             this.status = STATUS_ENUM.ALL
             this.pageNo = 1
             this.getData(this.pageNo)
+            this.getTotalPages()
           }
         },
         {
@@ -77,6 +78,7 @@ export default {
             this.status = STATUS_ENUM.ONLINE
             this.pageNo = 1
             this.getData(this.pageNo)
+            this.getTotalPages()
           }
         },
         {
@@ -85,6 +87,7 @@ export default {
             this.status = STATUS_ENUM.DRAFT
             this.pageNo = 1
             this.getData(this.pageNo)
+            this.getTotalPages()
           }
         }
       ]

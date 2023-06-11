@@ -7,7 +7,7 @@
         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 pr-0 w-auto"
         type="button"
       >
-        <slot>{{ options[0].name }}</slot>
+        <slot>{{ dpOptions[selectedId].name }}</slot>
       </button>
       <button
         @click="toggleDropdown"
@@ -40,7 +40,7 @@
       <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
         <li v-for="(item, index) in dpOptions" :key="index">
           <div
-            @click="item.action"
+            @click="executeSelectedAction(index)"
             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
           >
             {{ item.name }}
@@ -64,7 +64,8 @@ export default {
   },
   data() {
     return {
-      showDropdown: false
+      showDropdown: false,
+      selectedId: 0
     }
   },
   computed: {
@@ -87,7 +88,14 @@ export default {
       if (this.showDropdown) {
         this.showDropdown = false
       }
-      this.options[0].action()
+      this.options[this.selectedId].action()
+    },
+    executeSelectedAction(id) {
+      this.changeSelected(id)
+      this.dpOptions[this.selectedId].action()
+    },
+    changeSelected(id) {
+      this.selectedId = id
     }
   }
 }

@@ -62,6 +62,12 @@
                   :placeholder="`Please enter ${item}`"
                 />
               </div>
+              <div v-if="bindValue[section][item].type == 'url'">
+                <InputWithFileUploader
+                  v-model="bindValue[section][item].value"
+                  :id="`section-image-${section}-${item}`"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -233,10 +239,12 @@
 <script>
 import ToggleVue from '../components/Toggle.vue'
 import Chips from './Chips.vue'
+import InputWithFileUploader from './FileUploader/InputWithFileUploader.vue'
 export default {
   components: {
     ToggleVue,
-    Chips
+    Chips,
+    InputWithFileUploader
   },
   props: { modelValue: null },
   computed: {

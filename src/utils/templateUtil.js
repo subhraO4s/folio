@@ -279,7 +279,7 @@ export const templateDetails = [
           copyRightBrand: {
             type: 'text',
             show: true,
-            value: 'Dentocare'
+            value: 'Toofar'
           }
         }
       }
@@ -564,7 +564,7 @@ export const templateDetails = [
           copyRightBrand: {
             type: 'text',
             show: true,
-            value: 'Dentocare'
+            value: 'AmazonTube'
           }
         }
       }

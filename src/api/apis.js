@@ -1,4 +1,4 @@
-import { account, storage, databases, Query, ID } from '@/utils/appwrite'
+import { account, storage, databases, Query, avatars, ID } from '@/utils/appwrite'
 import { LOGGED_IN_KEY } from '@/utils/constants'
 import { deleteCookie } from '@/utils/cookieHelper'
 import { STATUS_ENUM, CONTENT_TYPE_ENUM } from '../utils/constants'
@@ -50,6 +50,11 @@ const updateDocuments = async (COLLECTION_ID, DOCUMENT_ID, paylaod) => {
   let response = await middleWare(() =>
     databases.updateDocument(DB_ID, COLLECTION_ID, DOCUMENT_ID, paylaod)
   )
+  return response
+}
+
+const getAvatar = async () => {
+  let response = await middleWare(() => avatars.getInitials())
   return response
 }
 
@@ -447,7 +452,7 @@ const addContentCounts = async (contentType, status) => {
     }
     response = await updateDocuments(COLLECTION_ID, UID, paylaod)
   } else {
-    // create
+    // create if required
     const paylaod = {
       online: status == STATUS_ENUM.ONLINE ? 1 : 0,
       draft: status == STATUS_ENUM.DRAFT ? 1 : 0,
@@ -487,6 +492,24 @@ const editContentCounts = async (contentType, previousStatus, currentStatus) => 
   return response
 }
 
+const createTotalItemContentCountDocumentForNewUser = async () => {
+  const COLLECTION_ID_BLOG = import.meta.env.VITE_COLLECTION_BLOG_COUNT
+  const COLLECTION_ID_PROJECT = import.meta.env.VITE_COLLECTION_PROJECT_COUNT
+  const UID = store.getters['auth/getUserId']
+  const paylaod = {
+    online: 0,
+    draft: 0,
+    all: 0
+  }
+  const projectResp = middleWare(() =>
+    databases.createDocument(DB_ID, COLLECTION_ID_PROJECT, UID, paylaod)
+  )
+  const blogResp = middleWare(() =>
+    databases.createDocument(DB_ID, COLLECTION_ID_BLOG, UID, paylaod)
+  )
+  return Promise.all([projectResp, blogResp])
+}
+
 const getTotalItemContentCount = async (contentType) => {
   const COLLECTION_ID =
     contentType == CONTENT_TYPE_ENUM.BLOG
@@ -499,6 +522,7 @@ const getTotalItemContentCount = async (contentType) => {
 
 export {
   getAccount,
+  getAvatar,
   login,
   logout,
   signup,
@@ -533,5 +557,6 @@ export {
   updateUserSettings,
   checkUserNameExsists,
   createUserDetailsLink,
-  getTotalItemContentCount
+  getTotalItemContentCount,
+  createTotalItemContentCountDocumentForNewUser
 }

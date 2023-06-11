@@ -286,7 +286,8 @@ import {
   signup,
   sendVerificationEmail,
   checkUserNameExsists,
-  createUserDetailsLink
+  createUserDetailsLink,
+  createTotalItemContentCountDocumentForNewUser
 } from '../../api/apis'
 export default {
   data() {
@@ -341,6 +342,7 @@ export default {
         await this.signupUser()
         await this.createUserName()
         await this.loginUser()
+        this.createContentCountsDocuments()
         this.$router.push('/dashboard')
       } else {
         this.showErrorMessage = true
@@ -378,6 +380,9 @@ export default {
       if (resp.success) {
         this.$store.dispatch('auth/saveUserName', this.userName)
       }
+    },
+    createContentCountsDocuments() {
+      createTotalItemContentCountDocumentForNewUser()
     }
   },
   created() {
