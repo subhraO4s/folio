@@ -1,10 +1,10 @@
 <template>
   <div class="about-us-card">
     <div>
-      <img v-if="cardType == 'blog'" :src="img ? img : templateImage" alt="" />
-      <img v-else :src="img ? img : templateImage" alt="" />
+      <img v-if="cardType == 'blog'" :src="img" alt="" />
+      <img v-else :src="img" alt="" />
     </div>
-    <h3 class="mb-4">{{ title }}</h3>
+    <h3 class="mb-4 pt-2">{{ title }}</h3>
     <h5 class="mb-4 color-secondary">
       {{ details }}
     </h5>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import templateImage from '@/assets/images/template-1.png'
+import templateImage from '@/assets/images/meetup-1.jpg'
 export default {
   props: {
     cardType: {
@@ -26,7 +26,7 @@ export default {
     },
     img: {
       type: String,
-      default: 'services'
+      default: templateImage
     },
     title: {
       type: String,

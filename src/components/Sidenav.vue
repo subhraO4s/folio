@@ -5,7 +5,7 @@
     id="drawer-navigation"
   >
     <div class="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
-      <form action="#" method="GET" class="md:hidden mb-2">
+      <!-- <form action="#" method="GET" class="md:hidden mb-2">
         <label for="sidebar-search" class="sr-only">Search</label>
         <div class="relative">
           <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -30,7 +30,7 @@
             placeholder="Search"
           />
         </div>
-      </form>
+      </form> -->
       <ul class="space-y-2">
         <li>
           <a
@@ -42,26 +42,53 @@
             }"
           >
             <svg
-              aria-hidden="true"
               class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-              :class="{ 'text-gray-900 dark:text-white': this.$route.fullPath == '/dashboard' }"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
             >
-              <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
-              <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+              <path
+                d="M7 3.5A1.5 1.5 0 018.5 2h3.879a1.5 1.5 0 011.06.44l3.122 3.12A1.5 1.5 0 0117 6.622V12.5a1.5 1.5 0 01-1.5 1.5h-1v-3.379a3 3 0 00-.879-2.121L10.5 5.379A3 3 0 008.379 4.5H7v-1z"
+              ></path>
+              <path
+                d="M4.5 6A1.5 1.5 0 003 7.5v9A1.5 1.5 0 004.5 18h7a1.5 1.5 0 001.5-1.5v-5.879a1.5 1.5 0 00-.44-1.06L9.44 6.439A1.5 1.5 0 008.378 6H4.5z"
+              ></path>
             </svg>
             <span class="ml-3">Overview</span>
           </a>
         </li>
         <li>
+          <a
+            href="#"
+            @click="routeTo(routes.get(ALL_PORTFOLIO))"
+            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            :class="{
+              'bg-gray-100 dark:bg-gray-700': this.$route.fullPath == routes.get(ALL_PORTFOLIO)
+            }"
+          >
+            <svg
+              class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                d="M7 3.5A1.5 1.5 0 018.5 2h3.879a1.5 1.5 0 011.06.44l3.122 3.12A1.5 1.5 0 0117 6.622V12.5a1.5 1.5 0 01-1.5 1.5h-1v-3.379a3 3 0 00-.879-2.121L10.5 5.379A3 3 0 008.379 4.5H7v-1z"
+              ></path>
+              <path
+                d="M4.5 6A1.5 1.5 0 003 7.5v9A1.5 1.5 0 004.5 18h7a1.5 1.5 0 001.5-1.5v-5.879a1.5 1.5 0 00-.44-1.06L9.44 6.439A1.5 1.5 0 008.378 6H4.5z"
+              ></path>
+            </svg>
+            <span class="ml-3">My Templates</span>
+          </a>
+        </li>
+        <li>
           <button
             type="button"
-            @click="routeTo(routes.get(ALL_PORTFOLIO))"
+            @click="routeTo(routes.get(ACTIVE_PORTFOLIO))"
             class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-            aria-controls="dropdown-pages"
-            data-collapse-toggle="dropdown-pages"
           >
             <svg
               aria-hidden="true"
@@ -76,40 +103,8 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-            <span class="flex-1 ml-3 text-left whitespace-nowrap">My Portfolio</span>
-            <svg
-              aria-hidden="true"
-              class="w-6 h-6"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
+            <span class="flex-1 ml-3 text-left whitespace-nowrap">My Active Portfolio</span>
           </button>
-          <ul id="dropdown-pages" class="hidden py-2 space-y-2">
-            <li>
-              <a
-                href="#"
-                @click="routeTo(routes.get(ALL_PORTFOLIO))"
-                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-              >
-                All Portfolios</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                @click="routeTo(routes.get(ACTIVE_PORTFOLIO))"
-                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                >Active Site Settings</a
-              >
-            </li>
-          </ul>
         </li>
         <li>
           <a
@@ -130,7 +125,7 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-            <span class="flex-1 ml-3 text-left whitespace-nowrap">Templates</span>
+            <span class="flex-1 ml-3 text-left whitespace-nowrap">Template Store</span>
           </a>
         </li>
         <li>
@@ -138,68 +133,32 @@
             type="button"
             @click="routeTo(routes.get(PROJECTS))"
             class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-            aria-controls="dropdown-authentication"
-            data-collapse-toggle="dropdown-authentication"
           >
             <svg
-              fill="currentColor"
               class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path
-                clip-rule="evenodd"
-                fill-rule="evenodd"
-                d="M1.045 6.954a2.75 2.75 0 01.217-.678L2.53 3.58A2.75 2.75 0 015.019 2h9.962a2.75 2.75 0 012.488 1.58l1.27 2.696c.101.216.174.444.216.678A1 1 0 0119 7.25v1.5a2.75 2.75 0 01-2.75 2.75H3.75A2.75 2.75 0 011 8.75v-1.5a1 1 0 01.045-.296zm2.843-2.736A1.25 1.25 0 015.02 3.5h9.962c.484 0 .925.28 1.13.718l.957 2.032H14a1 1 0 00-.86.49l-.606 1.02a1 1 0 01-.86.49H8.236a1 1 0 01-.894-.553l-.448-.894A1 1 0 006 6.25H2.932l.956-2.032z"
-              ></path>
-              <path
-                d="M1 14a1 1 0 011-1h4a1 1 0 01.894.553l.448.894a1 1 0 00.894.553h3.438a1 1 0 00.86-.49l.606-1.02A1 1 0 0114 13h4a1 1 0 011 1v2a2 2 0 01-2 2H3a2 2 0 01-2-2v-2z"
-              ></path>
-            </svg>
-            <span class="flex-1 ml-3 text-left whitespace-nowrap">CMS</span>
-            <svg
-              aria-hidden="true"
-              class="w-6 h-6"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
             >
               <path
-                fill-rule="evenodd"
-                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                 clip-rule="evenodd"
+                fill-rule="evenodd"
+                d="M3 3.5A1.5 1.5 0 014.5 2h6.879a1.5 1.5 0 011.06.44l4.122 4.12A1.5 1.5 0 0117 7.622V16.5a1.5 1.5 0 01-1.5 1.5h-11A1.5 1.5 0 013 16.5v-13zM13.25 9a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5a.75.75 0 01.75-.75zm-6.5 4a.75.75 0 01.75.75v.5a.75.75 0 01-1.5 0v-.5a.75.75 0 01.75-.75zm4-1.25a.75.75 0 00-1.5 0v2.5a.75.75 0 001.5 0v-2.5z"
               ></path>
             </svg>
+            <span class="flex-1 ml-3 text-left whitespace-nowrap">Projects</span>
           </button>
-          <ul id="dropdown-authentication" class="hidden py-2 space-y-2">
-            <li>
-              <a
-                href="#"
-                @click="routeTo(routes.get(PROJECTS))"
-                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                >Projects</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                @click="routeTo(routes.get(BLOGS))"
-                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                >Blogs</a
-              >
-            </li>
-          </ul>
         </li>
         <li>
           <a
             href="#"
-            @click="routeTo(routes.get(SUPPORT))"
+            @click="routeTo(routes.get(BLOGS))"
             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
           >
             <svg
-              fill="currentColor"
               class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+              fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
@@ -207,15 +166,11 @@
               <path
                 clip-rule="evenodd"
                 fill-rule="evenodd"
-                d="M13 3v1.27a.75.75 0 001.5 0V3h2.25A2.25 2.25 0 0119 5.25v2.628a.75.75 0 01-.5.707 1.5 1.5 0 000 2.83c.3.106.5.39.5.707v2.628A2.25 2.25 0 0116.75 17H14.5v-1.27a.75.75 0 00-1.5 0V17H3.25A2.25 2.25 0 011 14.75v-2.628c0-.318.2-.601.5-.707a1.5 1.5 0 000-2.83.75.75 0 01-.5-.707V5.25A2.25 2.25 0 013.25 3H13zm1.5 4.396a.75.75 0 00-1.5 0v1.042a.75.75 0 001.5 0V7.396zm0 4.167a.75.75 0 00-1.5 0v1.041a.75.75 0 001.5 0v-1.041zM6 10.75a.75.75 0 01.75-.75h3.5a.75.75 0 010 1.5h-3.5a.75.75 0 01-.75-.75zm0 2.5a.75.75 0 01.75-.75h1.5a.75.75 0 010 1.5h-1.5a.75.75 0 01-.75-.75z"
+                d="M2 3.5A1.5 1.5 0 013.5 2h9A1.5 1.5 0 0114 3.5v11.75A2.75 2.75 0 0016.75 18h-12A2.75 2.75 0 012 15.25V3.5zm3.75 7a.75.75 0 000 1.5h4.5a.75.75 0 000-1.5h-4.5zm0 3a.75.75 0 000 1.5h4.5a.75.75 0 000-1.5h-4.5zM5 5.75A.75.75 0 015.75 5h4.5a.75.75 0 01.75.75v2.5a.75.75 0 01-.75.75h-4.5A.75.75 0 015 8.25v-2.5z"
               ></path>
+              <path d="M16.5 6.5h-1v8.75a1.25 1.25 0 102.5 0V8a1.5 1.5 0 00-1.5-1.5z"></path>
             </svg>
-            <span class="flex-1 ml-3 whitespace-nowrap">Support Tickets</span>
-            <!-- <span
-              class="inline-flex justify-center items-center w-5 h-5 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"
-            >
-              4
-            </span> -->
+            <span class="flex-1 ml-3 whitespace-nowrap">Blogs</span>
           </a>
         </li>
       </ul>
@@ -239,7 +194,29 @@
                 d="M7.84 1.804A1 1 0 018.82 1h2.36a1 1 0 01.98.804l.331 1.652a6.993 6.993 0 011.929 1.115l1.598-.54a1 1 0 011.186.447l1.18 2.044a1 1 0 01-.205 1.251l-1.267 1.113a7.047 7.047 0 010 2.228l1.267 1.113a1 1 0 01.206 1.25l-1.18 2.045a1 1 0 01-1.187.447l-1.598-.54a6.993 6.993 0 01-1.929 1.115l-.33 1.652a1 1 0 01-.98.804H8.82a1 1 0 01-.98-.804l-.331-1.652a6.993 6.993 0 01-1.929-1.115l-1.598.54a1 1 0 01-1.186-.447l-1.18-2.044a1 1 0 01.205-1.251l1.267-1.114a7.05 7.05 0 010-2.227L1.821 7.773a1 1 0 01-.206-1.25l1.18-2.045a1 1 0 011.187-.447l1.598.54A6.993 6.993 0 017.51 3.456l.33-1.652zM10 13a3 3 0 100-6 3 3 0 000 6z"
               ></path>
             </svg>
-            <span class="ml-3">Settings</span>
+            <span class="ml-3">Account Settings</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            @click="routeTo(routes.get(CHANGE_PASSWORD))"
+            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
+          >
+            <svg
+              class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                clip-rule="evenodd"
+                fill-rule="evenodd"
+                d="M8 7a5 5 0 113.61 4.804l-1.903 1.903A1 1 0 019 14H8v1a1 1 0 01-1 1H6v1a1 1 0 01-1 1H3a1 1 0 01-1-1v-2a1 1 0 01.293-.707L8.196 8.39A5.002 5.002 0 018 7zm5-3a.75.75 0 000 1.5A1.5 1.5 0 0114.5 7 .75.75 0 0016 7a3 3 0 00-3-3z"
+              ></path>
+            </svg>
+            <span class="ml-3">Change Password</span>
           </a>
         </li>
         <li>
@@ -281,7 +258,7 @@ import {
   SETTINGS,
   PROJECTS,
   BLOGS,
-  SUPPORT,
+  CHANGE_PASSWORD,
   ALL_PORTFOLIO,
   ACTIVE_PORTFOLIO,
   ROUTE_MAP
@@ -295,7 +272,7 @@ export default {
       SETTINGS: SETTINGS,
       PROJECTS: PROJECTS,
       BLOGS: BLOGS,
-      SUPPORT: SUPPORT,
+      CHANGE_PASSWORD: CHANGE_PASSWORD,
       ALL_PORTFOLIO: ALL_PORTFOLIO,
       ACTIVE_PORTFOLIO: ACTIVE_PORTFOLIO
     }

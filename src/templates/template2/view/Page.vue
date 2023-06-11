@@ -10,6 +10,9 @@
     <div class="container vh100">
       <Main :data="templateData.heroSection" />
       <Projects :data="templateData.projectSection" />
+      <About :data="templateData.aboutSection" />
+      <Mission :data="templateData.missionSection" />
+      <Blog :data="templateData.blogSection" />
       <Footer :data="templateData.footer" />
     </div>
   </template>
@@ -24,9 +27,9 @@ import Spinner from '../../../components/Spinner.vue'
 import Main from '../sections/Main.vue'
 import Nav from '../components/Nav.vue'
 import Footer from '../components/Footer.vue'
-import Projects from '../sections/About.vue'
+import Projects from '../sections/Projects.vue'
 import Blog from '../sections/Blog.vue'
-import Details from '../sections/Details.vue'
+import About from '../sections/About.vue'
 import Mission from '../sections/Mission.vue'
 import ListView from './ListView.vue'
 const tid = 1
@@ -38,7 +41,7 @@ export default {
     Footer,
     Projects,
     Blog,
-    Details,
+    About,
     Mission,
     ListView
   },

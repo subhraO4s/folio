@@ -5,7 +5,8 @@ const getDetfaultValues = () => {
     img: '',
     title: '',
     abstract: '',
-    content: ''
+    content: '',
+    status: ''
   }
 }
 const addContent = {
@@ -32,6 +33,9 @@ const addContent = {
     },
     setContent(state, new_state) {
       state.content = new_state
+    },
+    setStatus(state, new_state) {
+      state.status = new_state
     }
   },
   getters: {
@@ -52,11 +56,15 @@ const addContent = {
     },
     getContent(state) {
       return state.content
+    },
+    getStatus(state) {
+      return state.status
     }
   },
   actions: {
     saveAllData(context, payload) {
       context.commit('setImg', payload.img)
+      context.commit('setStatus', payload.status)
       context.commit('setTitle', payload.title)
       context.commit('setAbstract', payload.abstract)
       context.commit('setContent', payload.content)

@@ -34,8 +34,8 @@
                   :key="index"
                 />
               </div>
-              <div class="mt-4 center">
-                <Button label="Load More" />
+              <div class="mt-4 center" v-if="this.pageNo < this.totalPages">
+                <Button @click="incrementPage" label="Load More" />
               </div>
             </template>
           </div>
@@ -71,7 +71,9 @@ export default {
       templateData: {},
       loadingListData: true,
       listData: [],
-      isBlog: true
+      pageNo: 1,
+      isBlog: true,
+      totalPages: 3
     }
   },
   components: {
@@ -86,14 +88,20 @@ export default {
       this.loadingListData = true
       let resp
       if (this.isBlog) {
-        resp = await getBlogs(null, 25)
+        resp = await getBlogs(null, this.pageNo)
       } else {
-        resp = await getProjects(null, 25)
+        resp = await getProjects(null, this.pageNo)
       }
       if (resp.success) {
-        this.listData = resp.data.documents
+        this.listData.push(...resp.data.documents)
       }
       this.loadingListData = false
+    },
+    incrementPage() {
+      if (this.pageNo < this.totalPages) {
+        this.pageNo++
+        this.getListData()
+      }
     },
     intialize() {
       this.loading = true
@@ -103,8 +111,6 @@ export default {
         this.templateData = this.pageData
         this.getListData()
       }
-      // this.templateData = this.data
-      console.log('', this.templateData)
       this.loading = false
     }
   },

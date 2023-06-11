@@ -32,6 +32,25 @@
 
           <div class="flex gap-4">
             <button
+              @click="openSite"
+              class="inline-flex items-center px-3 py-2 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+            >
+              View
+              <svg
+                fill="currentColor"
+                class="w-4 h-4 ml-2 -mr-1"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  clip-rule="evenodd"
+                  fill-rule="evenodd"
+                  d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
+                ></path>
+              </svg>
+            </button>
+            <button
               @click="showToggleActivationConfirmation"
               class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
@@ -320,6 +339,10 @@ export default {
         this.showSaveUnsuccesfulModal()
       }
       this.saveInProgress = false
+    },
+    openSite() {
+      const link = this.isActiveSite ? this.activePortfolioLink : this.portfolioLink
+      window.open(link, '_blank')
     }
   },
   watch: {

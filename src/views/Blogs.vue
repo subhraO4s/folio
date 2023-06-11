@@ -3,7 +3,7 @@
     <div class="pb-4 text-2xl font-medium tracking-tight text-gray-900 dark:text-white">Blogs</div>
     <div>
       <div class="mb-8 mt-8 flex justify-between">
-        <Dropdown />
+        <Dropdown :options="dpOptions" />
 
         <router-link
           to="/dashboard/cms/blogs/add"
@@ -24,13 +24,16 @@
         </router-link>
       </div>
       <Table
-        v-model="selected"
         :tableData="tableData"
         :tableKeys="tableKeys"
         :headers="headers"
+        :loading="loading"
         @edit="enterEditMode"
         @delete="removeBlog"
       />
+      <div class="pt-8 flex justify-center items-center">
+        <Pagination :loading="loading" v-model="pageNo" :totalPages="totalPages" />
+      </div>
     </div>
   </section>
 </template>
@@ -38,25 +41,63 @@
 <script>
 import Table from '../components/Table.vue'
 import Dropdown from '../components/Dropdown.vue'
-import { getBlogs, deleteBlog } from '../api/apis'
-import { STATUS_ENUM } from '../utils/constants'
+import { getBlogs, deleteBlog, getTotalItemContentCount } from '../api/apis'
+import { STATUS_ENUM, CONTENT_TYPE_ENUM } from '../utils/constants'
+import Pagination from '../components/Pagination.vue'
 export default {
   components: {
     Table,
-    Dropdown
+    Dropdown,
+    Pagination
   },
   data() {
     return {
-      selected: [],
       headers: ['Title', 'Details', 'Publish Date', 'Status', 'Actions'],
       tableData: [],
-      tableKeys: ['title', 'abstract', 'published_on', 'status']
+      tableKeys: ['title', 'abstract', 'published_on', 'status'],
+      status: STATUS_ENUM.ALL,
+      loading: true,
+      pageNo: 1,
+      totalPages: 0,
+      pageLimit: import.meta.env.VITE_PAGINATION_LIMIT,
+      dpOptions: [
+        {
+          name: 'All',
+          action: () => {
+            this.status = STATUS_ENUM.ALL
+            this.pageNo = 1
+            this.getData(this.pageNo)
+          }
+        },
+        {
+          name: 'Online',
+          action: () => {
+            this.status = STATUS_ENUM.ONLINE
+            this.pageNo = 1
+            this.getData(this.pageNo)
+          }
+        },
+        {
+          name: 'Draft',
+          action: () => {
+            this.status = STATUS_ENUM.DRAFT
+            this.pageNo = 1
+            this.getData(this.pageNo)
+          }
+        }
+      ]
     }
   },
   methods: {
-    async getData() {
-      const resp = await getBlogs(STATUS_ENUM.ONLINE)
+    async getData(pageNo) {
+      const resp = await getBlogs(this.status, pageNo)
       this.tableData = resp.data.documents
+    },
+    async getTotalPages() {
+      const resp = await getTotalItemContentCount(CONTENT_TYPE_ENUM.BLOG)
+      if (resp.success) {
+        this.totalPages = Math.ceil(Number(resp.data[this.status] / this.pageLimit))
+      }
     },
     enterEditMode(data) {
       const payload = {
@@ -64,7 +105,8 @@ export default {
         title: data.title,
         abstract: data.abstract,
         content: data.content,
-        documentId: data.$id
+        documentId: data.$id,
+        status: data.status
       }
       this.$store.dispatch('addContent/saveAllData', payload)
       this.$store.dispatch('addContent/updateEditMode', true)
@@ -73,12 +115,29 @@ export default {
     async removeBlog(data) {
       const resp = await deleteBlog(data.$id)
       if (resp.success) {
-        this.getData()
+        this.getData(this.pageNo)
       }
+    },
+    initialize() {
+      const data = this.getData(this.pageNo)
+      const pages = this.getTotalPages()
+      this.loading = true
+      Promise.all([data, pages])
+        .then(() => {
+          this.loading = false
+        })
+        .catch((el) => {
+          this.loading = false
+        })
     }
   },
   mounted() {
-    this.getData()
+    this.initialize()
+  },
+  watch: {
+    pageNo: function (new_value, old_value) {
+      this.getData(new_value)
+    }
   }
 }
 </script>

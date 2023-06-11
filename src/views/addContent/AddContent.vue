@@ -160,6 +160,7 @@
         :content="content"
         :isEditMode="isEditMode"
         :documentId="storeDocumentId"
+        :previousStatus="storeStatus"
       />
     </div>
   </section>
@@ -196,7 +197,8 @@ export default {
       storeTitle: 'addContent/getTitle',
       storeAbstract: 'addContent/getAbstract',
       storeContent: 'addContent/getContent',
-      storeDocumentId: 'addContent/getDocumentId'
+      storeDocumentId: 'addContent/getDocumentId',
+      storeStatus: 'addContent/getDocumentId'
     })
   },
   methods: {

@@ -13,7 +13,7 @@ import ResetPassword from '../views/auth/ResetPassword.vue'
 import UserDetails from '../views/Userdetails.vue'
 import Blogs from '../views/Blogs.vue'
 import Projects from '../views/Projects.vue'
-import Support from '../views/Support.vue'
+import ChangePassword from '../views/ChangePassword.vue'
 import Settings from '../views/Settings.vue'
 import ActivePortfolio from '../views/ActivePortfolio.vue'
 import AllPortfolio from '../views/AllPortfolio.vue'
@@ -168,9 +168,9 @@ const router = createRouter({
           component: AddContent
         },
         {
-          path: 'support',
-          name: 'support',
-          component: Support
+          path: 'change-password',
+          name: 'change-password',
+          component: ChangePassword
         },
         {
           path: 'all-portfolio',

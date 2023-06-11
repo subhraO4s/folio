@@ -1,6 +1,7 @@
 import { account, storage, databases, Query, ID } from '@/utils/appwrite'
 import { LOGGED_IN_KEY } from '@/utils/constants'
 import { deleteCookie } from '@/utils/cookieHelper'
+import { STATUS_ENUM, CONTENT_TYPE_ENUM } from '../utils/constants'
 import store from '../store/index'
 
 const DB_ID = import.meta.env.VITE_DATABASE_ID
@@ -67,9 +68,9 @@ const logout = async () => {
   return response
 }
 
-const signup = async (email, password) => {
+const signup = async (email, password, name) => {
   console.log({ email, password })
-  let response = await middleWare(() => account.create(ID.unique(), email, password))
+  let response = await middleWare(() => account.create(ID.unique(), email, password, name))
   return response
 }
 
@@ -150,12 +151,26 @@ const uploadFile = async (file) => {
   return response
 }
 
-const getProjects = async (status) => {
+const getProjects = async (status, pageNo, customLimit) => {
   const COLLECTION_ID = import.meta.env.VITE_COLLECTION_PROJECTS
   const UID = store.getters['auth/getUserId']
-  const QUERRY = status
-    ? [Query.equal('uid', [UID]), Query.equal('status', [status]), Query.orderDesc('published_on')]
-    : [Query.equal('uid', [UID]), Query.orderDesc('published_on')]
+  const LIMIT = customLimit ? customLimit : import.meta.env.VITE_PAGINATION_LIMIT
+  const OFFSET = (pageNo - 1) * LIMIT
+  const QUERRY =
+    status != STATUS_ENUM.ALL
+      ? [
+          Query.equal('uid', [UID]),
+          Query.equal('status', [status]),
+          Query.orderDesc('published_on'),
+          Query.limit(LIMIT),
+          Query.offset(OFFSET)
+        ]
+      : [
+          Query.equal('uid', [UID]),
+          Query.orderDesc('published_on'),
+          Query.limit(LIMIT),
+          Query.offset(OFFSET)
+        ]
   const response = await getDocuments(COLLECTION_ID, QUERRY)
   return response
 }
@@ -167,13 +182,19 @@ const createProject = async (paylaod) => {
     ...paylaod
   }
   const COLLECTION_ID = import.meta.env.VITE_COLLECTION_PROJECTS
-  const response = await createDocuments(COLLECTION_ID, finalPayload)
+  let response = await createDocuments(COLLECTION_ID, finalPayload)
+  if (response.success) {
+    response = await addContentCounts(CONTENT_TYPE_ENUM.PROJECT, finalPayload.status)
+  }
   return response
 }
 
-const editProject = async (documentId, paylaod) => {
+const editProject = async (documentId, paylaod, previousStatus) => {
   const COLLECTION_ID = import.meta.env.VITE_COLLECTION_PROJECTS
-  const response = await updateDocuments(COLLECTION_ID, documentId, paylaod)
+  let response = await updateDocuments(COLLECTION_ID, documentId, paylaod)
+  if (response.success) {
+    response = await editContentCounts(CONTENT_TYPE_ENUM.PROJECT, previousStatus, paylaod.status)
+  }
   return response
 }
 
@@ -183,12 +204,27 @@ const deleteProject = async (documentId) => {
   return response
 }
 
-const getBlogs = async (status, limit) => {
+const getBlogs = async (status, pageNo, customLimit) => {
   const COLLECTION_ID = import.meta.env.VITE_COLLECTION_BLOGS
   const UID = store.getters['auth/getUserId']
-  const QUERRY = status
-    ? [Query.equal('uid', [UID]), Query.equal('status', [status]), Query.orderDesc('published_on')]
-    : [Query.equal('uid', [UID]), Query.orderDesc('published_on'), Query.limit(limit)]
+  const LIMIT = customLimit ? customLimit : import.meta.env.VITE_PAGINATION_LIMIT
+  const OFFSET = (pageNo - 1) * LIMIT
+  console.log({ LIMIT, OFFSET })
+  const QUERRY =
+    status != STATUS_ENUM.ALL
+      ? [
+          Query.equal('uid', [UID]),
+          Query.equal('status', [status]),
+          Query.orderDesc('published_on'),
+          Query.limit(LIMIT),
+          Query.offset(OFFSET)
+        ]
+      : [
+          Query.equal('uid', [UID]),
+          Query.orderDesc('published_on'),
+          Query.limit(LIMIT),
+          Query.offset(OFFSET)
+        ]
   const response = await getDocuments(COLLECTION_ID, QUERRY)
   return response
 }
@@ -212,13 +248,19 @@ const createBlog = async (paylaod) => {
     ...paylaod
   }
   const COLLECTION_ID = import.meta.env.VITE_COLLECTION_BLOGS
-  const response = await createDocuments(COLLECTION_ID, finalPayload)
+  let response = await createDocuments(COLLECTION_ID, finalPayload)
+  if (response.success) {
+    response = await addContentCounts(CONTENT_TYPE_ENUM.BLOG, finalPayload.status)
+  }
   return response
 }
 
-const editBlog = async (documentId, paylaod) => {
+const editBlog = async (documentId, paylaod, previousStatus) => {
   const COLLECTION_ID = import.meta.env.VITE_COLLECTION_BLOGS
-  const response = await updateDocuments(COLLECTION_ID, documentId, paylaod)
+  let response = await updateDocuments(COLLECTION_ID, documentId, paylaod)
+  if (response.success) {
+    response = await editContentCounts(CONTENT_TYPE_ENUM.BLOG, previousStatus, paylaod.status)
+  }
   return response
 }
 
@@ -373,12 +415,85 @@ const updateUserSettings = async (paylaod) => {
   return response
 }
 
+const createUserDetailsLink = async (documentId) => {
+  const COLLECTION_ID = import.meta.env.VITE_COLLECTION_USER_DETAILS
+  const UID = store.getters['auth/getUserId']
+  const payload = { uid: UID, count: 0 }
+  let response = await middleWare(() =>
+    databases.createDocument(DB_ID, COLLECTION_ID, documentId, payload)
+  )
+  return response
+}
+
 const checkUserNameExsists = async (userName) => {
-  const COLLECTION_ID = import.meta.env.VITE_COLLECTION_PORTFOLIOS
+  const COLLECTION_ID = import.meta.env.VITE_COLLECTION_USER_DETAILS
   let response = await getSingleDocument(COLLECTION_ID, userName)
+  return response
+}
+
+const addContentCounts = async (contentType, status) => {
+  const COLLECTION_ID =
+    contentType == CONTENT_TYPE_ENUM.BLOG
+      ? import.meta.env.VITE_COLLECTION_BLOG_COUNT
+      : import.meta.env.VITE_COLLECTION_PROJECT_COUNT
+  const UID = store.getters['auth/getUserId']
+  let response = await getSingleDocument(COLLECTION_ID, UID)
   if (response.success) {
-    response.success = false // counter logic
+    // update
+    const paylaod = {
+      online: status == STATUS_ENUM.ONLINE ? response.data.online + 1 : response.data.online,
+      draft: status == STATUS_ENUM.DRAFT ? response.data.draft + 1 : response.data.draft,
+      all: response.data.all + 1
+    }
+    response = await updateDocuments(COLLECTION_ID, UID, paylaod)
+  } else {
+    // create
+    const paylaod = {
+      online: status == STATUS_ENUM.ONLINE ? 1 : 0,
+      draft: status == STATUS_ENUM.DRAFT ? 1 : 0,
+      all: 1
+    }
+    response = await middleWare(() => databases.createDocument(DB_ID, COLLECTION_ID, UID, paylaod))
   }
+  return response
+}
+
+const editContentCounts = async (contentType, previousStatus, currentStatus) => {
+  if (previousStatus == currentStatus) return
+  const COLLECTION_ID =
+    contentType == CONTENT_TYPE_ENUM.BLOG
+      ? import.meta.env.VITE_COLLECTION_BLOG_COUNT
+      : import.meta.env.VITE_COLLECTION_PROJECT_COUNT
+  const UID = store.getters['auth/getUserId']
+  let response = await getSingleDocument(COLLECTION_ID, UID)
+  if (response.success) {
+    // update
+    let onlineCount = response.data.online
+    let draftCount = response.data.draft
+    if (previousStatus == STATUS_ENUM.ONLINE) {
+      onlineCount--
+      draftCount++
+    } else {
+      onlineCount++
+      draftCount--
+    }
+    const paylaod = {
+      online: onlineCount,
+      draft: draftCount,
+      all: response.data.all
+    }
+    response = await updateDocuments(COLLECTION_ID, UID, paylaod)
+  }
+  return response
+}
+
+const getTotalItemContentCount = async (contentType) => {
+  const COLLECTION_ID =
+    contentType == CONTENT_TYPE_ENUM.BLOG
+      ? import.meta.env.VITE_COLLECTION_BLOG_COUNT
+      : import.meta.env.VITE_COLLECTION_PROJECT_COUNT
+  const UID = store.getters['auth/getUserId']
+  let response = await getSingleDocument(COLLECTION_ID, UID)
   return response
 }
 
@@ -416,5 +531,7 @@ export {
   getBlog,
   updatePortfolio,
   updateUserSettings,
-  checkUserNameExsists
+  checkUserNameExsists,
+  createUserDetailsLink,
+  getTotalItemContentCount
 }

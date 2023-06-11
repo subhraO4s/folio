@@ -1,5 +1,6 @@
 <template>
   <section class="p-4 md:ml-64 h-auto pt-20">
+    <NoResults />
     <!-- <FileUpload /> -->
     <!-- <InputWithFileUploader /> -->
   </section>
@@ -10,12 +11,14 @@
 import DashboardShell from '../components/DashboardShell.vue'
 import FileUpload from '@/components/FileUploader/FileUpload.vue'
 import InputWithFileUploader from '../components/FileUploader/InputWithFileUploader.vue'
+import NoResults from '../components/NoResults.vue'
 import { getFileUrlBaseOnFileId } from '@/api/apis'
 export default {
   components: {
     DashboardShell,
     FileUpload,
-    InputWithFileUploader
+    InputWithFileUploader,
+    NoResults
   },
   methods: {
     async test() {

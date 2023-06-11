@@ -1,9 +1,6 @@
 <template>
   <main class="main">
-    <div
-      class="home mt-16"
-      id="home"
-    >
+    <div class="home mt-16" id="home">
       <div class="home-left" :class="{ 'col-span-full text-center': !data.image.show }">
         <h4 class="color-primary mb-4" v-if="data.topHeading.show">{{ data.topHeading.value }}</h4>
         <h1 class="mb-4" v-if="data.title.show">{{ data.title.value }}</h1>
@@ -13,7 +10,7 @@
         <Button v-if="data.ctaButton.show" :label="data.ctaButton.value" />
       </div>
       <div class="home-right" v-if="data.image.show">
-        <img :src="data.image.value" alt="" />
+        <img :src="data.image.value" :alt="data.topHeading.value" />
       </div>
     </div>
   </main>

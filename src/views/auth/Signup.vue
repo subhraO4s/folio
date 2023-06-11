@@ -7,7 +7,7 @@
           src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
           alt="logo"
         />
-        Flowbite
+        SiteBlaze
       </a>
       <div
         class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
@@ -22,6 +22,40 @@
           <form class="space-y-4 md:space-y-6" v-if="stage == 1" @submit.prevent="moveToNextStage">
             <div>
               <label
+                for="username"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Enter Your UserName
+              </label>
+              <input
+                type="text"
+                name="username"
+                id="username"
+                v-model="userName"
+                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="baroiTushar"
+              />
+              <div class="pb-1 pt-1 text-sm text-gray-500">
+                username will be used to identify your website
+              </div>
+              <div class="pb-1" v-if="userName.length > 0">
+                <div v-if="checkingUserNameStatus" class="text-sm text-gray-500">
+                  checking username ...
+                </div>
+                <div
+                  class="text-sm"
+                  :class="[
+                    { 'text-green-600': userNameIsValid },
+                    { 'text-red-500': !userNameIsValid }
+                  ]"
+                  v-else
+                >
+                  {{ userNameIsValid ? 'username is valid' : 'username already exists' }}
+                </div>
+              </div>
+            </div>
+            <div>
+              <label
                 for="fullname"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >Enter You Name</label
@@ -33,21 +67,6 @@
                 v-model="fullName"
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Tushar Baroi"
-              />
-            </div>
-            <div>
-              <label
-                for="username"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Enter Your UserName</label
-              >
-              <input
-                type="text"
-                name="username"
-                id="username"
-                v-model="userName"
-                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="baroiTushar"
               />
             </div>
             <button
@@ -262,13 +281,20 @@
 import { debounce } from '../../utils/helpers'
 import { LOGGED_IN_KEY } from '@/utils/constants'
 import { setCookie } from '../../utils/cookieHelper'
-import { login, signup, sendVerificationEmail } from '../../api/apis'
+import {
+  login,
+  signup,
+  sendVerificationEmail,
+  checkUserNameExsists,
+  createUserDetailsLink
+} from '../../api/apis'
 export default {
   data() {
     return {
       fullName: '',
       userName: '',
       userNameIsValid: false,
+      checkingUserNameStatus: false,
       stage: 1,
       passwordVisibility: false,
       confirmPasswordVisibility: false,
@@ -289,10 +315,14 @@ export default {
     toggleSelect(event) {
       this.agreeToTerms = event.target.checked
     },
-    isValidateUserName(userName) {
-      console.log(userName)
-      // validation logic goes here
-      this.userNameIsValid = true
+    async isValidateUserName(userName) {
+      let resp = await checkUserNameExsists(userName)
+      if (resp.success) {
+        this.userNameIsValid = false
+      } else {
+        this.userNameIsValid = true
+      }
+      this.checkingUserNameStatus = false
     },
     nextStageEnabled() {
       return this.fullName.length > 0 && this.userName.length > 0 && this.userNameIsValid
@@ -309,13 +339,13 @@ export default {
     async signupTheUser() {
       if (this.password == this.confirmPassword && this.signupEnabled()) {
         await this.signupUser()
+        await this.createUserName()
         await this.loginUser()
         this.$router.push('/dashboard')
       } else {
         this.showErrorMessage = true
         this.passwordsMatch = true
       }
-      // await this.verifyEmail()
     },
     async loginUser() {
       let resp = await login(this.email, this.password)
@@ -327,7 +357,7 @@ export default {
       }
     },
     async signupUser() {
-      let resp = await signup(this.email, this.password)
+      let resp = await signup(this.email, this.password, this.fullName)
       if (resp.success) {
         resp = resp.data
         this.$store.dispatch('auth/saveSingupData', {
@@ -342,6 +372,12 @@ export default {
       if (resp.success) {
         this.$router.push('/verification-link-sent')
       }
+    },
+    async createUserName() {
+      let resp = await createUserDetailsLink(this.userName)
+      if (resp.success) {
+        this.$store.dispatch('auth/saveUserName', this.userName)
+      }
     }
   },
   created() {
@@ -351,6 +387,7 @@ export default {
   },
   watch: {
     userName: function (new_value, old_value) {
+      this.checkingUserNameStatus = true
       this.validateUserName(new_value)
     }
   }

@@ -42,10 +42,10 @@
           <img
             src="https://flowbite.s3.amazonaws.com/logo.svg"
             class="mr-3 h-8"
-            alt="Flowbite Logo"
+            alt="SiteBlaze Logo"
           />
           <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-            >Flowbite</span
+            >SiteBlaze</span
           >
         </a>
       </div>

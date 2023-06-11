@@ -17,19 +17,25 @@
             </a>
           </li>
           <li class="nav__item">
+            <a @click="routeToBase('project')" class="nav__link" v-if="data.projectSection.show">
+              {{ data.projectSection.value }}
+            </a>
+          </li>
+          <li class="nav__item">
             <a @click="routeToBase('about')" class="nav__link" v-if="data.aboutSection.show">
               {{ data.aboutSection.value }}
             </a>
           </li>
-          <!-- <li class="nav__item">
-            <a href="#who-are-we" class="nav__link"> WhoAreWe </a>
+          <li class="nav__item">
+            <a @click="routeToBase('mission')" class="nav__link" v-if="data.missionSection.show">
+              {{ data.missionSection.value }}
+            </a>
           </li>
           <li class="nav__item">
-            <a href="#mission" class="nav__link"> Mission </a>
+            <a @click="routeToBase('blog')" class="nav__link" v-if="data.blogSection.show">
+              {{ data.blogSection.value }}
+            </a>
           </li>
-          <li class="nav__item">
-            <a href="#contact" class="nav__link"> Contact us </a>
-          </li> -->
           <li @click="toggleDarkMode" class="cursor-pointer" v-if="data.themeController.show">
             <i
               class="bx bx-moon change-theme"

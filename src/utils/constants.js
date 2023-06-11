@@ -3,7 +3,7 @@ export const TEMPLATE = 'template'
 export const SETTINGS = 'settings'
 export const PROJECTS = 'projects'
 export const BLOGS = 'blogs'
-export const SUPPORT = 'support'
+export const CHANGE_PASSWORD = 'change-password'
 export const ALL_PORTFOLIO = 'all-portfolio'
 export const ACTIVE_PORTFOLIO = 'active-portfolio'
 export const ROUTE_MAP = new Map([
@@ -12,7 +12,7 @@ export const ROUTE_MAP = new Map([
   [SETTINGS, '/dashboard/settings'],
   [PROJECTS, '/dashboard/cms/projects'],
   [BLOGS, '/dashboard/cms/blogs'],
-  [SUPPORT, '/dashboard/support'],
+  [CHANGE_PASSWORD, '/dashboard/change-password'],
   [ALL_PORTFOLIO, '/dashboard/all-portfolio'],
   [ACTIVE_PORTFOLIO, '/dashboard/active-portfolio']
 ])
@@ -22,7 +22,11 @@ export const LOGGED_IN_KEY = 'wgZcuusrWb'
 export const STATUS_ENUM = {
   ONLINE: 'online',
   DRAFT: 'draft',
-  SCHEDULED: 'scheduled'
+  ALL: 'all'
+}
+export const CONTENT_TYPE_ENUM = {
+  BLOG: 'blog',
+  PROJECT: 'project'
 }
 export const MONTH_MAP = new Map([
   [1, 'Jan'],

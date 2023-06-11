@@ -1,11 +1,11 @@
 <template>
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 pt-4">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 pt-4" v-if="!loading">
       <thead
         class="text-xs text-gray-700 capitalize bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
       >
         <tr>
-          <th scope="col" class="p-4">
+          <!-- <th scope="col" class="p-4">
             <div class="flex items-center">
               <input
                 @click="selectAll"
@@ -16,7 +16,7 @@
               />
               <label for="checkbox-all-search" class="sr-only">checkbox</label>
             </div>
-          </th>
+          </th> -->
           <th scope="col" class="px-6 py-3" v-for="(item, index) in headers" :key="index">
             {{ item }}
           </th>
@@ -28,7 +28,7 @@
           v-for="(item, index) in tableData"
           :key="index"
         >
-          <td class="w-4 p-4">
+          <!-- <td class="w-4 p-4">
             <div class="flex items-center">
               <input
                 @click="(event) => toggleSelect(event, index)"
@@ -39,7 +39,7 @@
               />
               <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
             </div>
-          </td>
+          </td> -->
           <th
             scope="row"
             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -75,7 +75,13 @@
 <script>
 import { MONTH_MAP } from '../utils/constants'
 export default {
-  props: { modelValue: null, headers: null, tableData: null, tableKeys: null },
+  props: {
+    modelValue: null,
+    headers: null,
+    tableData: null,
+    tableKeys: null,
+    loading: { type: Boolean, default: false }
+  },
   data() {
     return {
       localMap: new Map()

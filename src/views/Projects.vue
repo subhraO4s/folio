@@ -5,7 +5,7 @@
     </div>
     <div>
       <div class="mb-8 mt-8 flex justify-between">
-        <Dropdown v-model="status" />
+        <Dropdown :options="dpOptions" />
 
         <router-link
           to="/dashboard/cms/projects/add"
@@ -26,13 +26,16 @@
         </router-link>
       </div>
       <Table
-        v-model="selected"
         :tableData="tableData"
         :tableKeys="tableKeys"
         :headers="headers"
+        :loading="loading"
         @edit="enterEditMode"
         @delete="removeProject"
       />
+      <div class="pt-8 flex justify-center items-center">
+        <Pagination :loading="loading" v-model="pageNo" :totalPages="totalPages" />
+      </div>
     </div>
   </section>
 </template>
@@ -40,33 +43,74 @@
 <script>
 import Table from '../components/Table.vue'
 import Dropdown from '../components/Dropdown.vue'
-import { getProjects, deleteProject } from '@/api/apis'
-import { STATUS_ENUM } from '../utils/constants'
+import { getProjects, deleteProject, getTotalItemContentCount } from '@/api/apis'
+import { STATUS_ENUM, CONTENT_TYPE_ENUM } from '../utils/constants'
+import Pagination from '../components/Pagination.vue'
 export default {
   components: {
     Table,
-    Dropdown
+    Dropdown,
+    Pagination
   },
   data() {
     return {
-      selected: [],
       headers: ['Title', 'Abstract', 'Publish Date', 'Status', 'Actions'],
       tableData: [],
       tableKeys: ['title', 'abstract', 'published_on', 'status'],
-      status: undefined
+      status: STATUS_ENUM.ALL,
+      loading: true,
+      pageNo: 1,
+      totalPages: 0,
+      pageLimit: import.meta.env.VITE_PAGINATION_LIMIT,
+      dpOptions: [
+        {
+          name: 'All',
+          action: () => {
+            this.status = STATUS_ENUM.ALL
+            this.pageNo = 1
+            this.getData(this.pageNo)
+          }
+        },
+        {
+          name: 'Online',
+          action: () => {
+            this.status = STATUS_ENUM.ONLINE
+            this.pageNo = 1
+            this.getData(this.pageNo)
+          }
+        },
+        {
+          name: 'Draft',
+          action: () => {
+            this.status = STATUS_ENUM.DRAFT
+            this.pageNo = 1
+            this.getData(this.pageNo)
+          }
+        }
+      ]
     }
   },
   methods: {
-    async getData() {
-      const resp = await getProjects(STATUS_ENUM.ONLINE)
-      this.tableData = resp.data.documents
+    async getData(pageNo) {
+      const resp = await getProjects(this.status, pageNo)
+      if (resp.success) {
+        this.tableData = resp.data.documents
+      }
+    },
+    async getTotalPages() {
+      const resp = await getTotalItemContentCount(CONTENT_TYPE_ENUM.PROJECT)
+      if (resp.success) {
+        this.totalPages = Math.ceil(Number(resp.data[this.status] / this.pageLimit))
+      }
     },
     enterEditMode(data) {
       const payload = {
+        img: data.img,
         title: data.title,
         abstract: data.abstract,
         content: data.content,
-        documentId: data.$id
+        documentId: data.$id,
+        status: data.status
       }
       this.$store.dispatch('addContent/saveAllData', payload)
       this.$store.dispatch('addContent/updateEditMode', true)
@@ -75,12 +119,29 @@ export default {
     async removeProject(data) {
       const resp = await deleteProject(data.$id)
       if (resp.success) {
-        this.getData()
+        this.getData(this.pageNo)
       }
+    },
+    initialize() {
+      const data = this.getData(this.pageNo)
+      const pages = this.getTotalPages()
+      this.loading = true
+      Promise.all([data, pages])
+        .then(() => {
+          this.loading = false
+        })
+        .catch((el) => {
+          this.loading = false
+        })
     }
   },
   mounted() {
-    this.getData()
+    this.initialize()
+  },
+  watch: {
+    pageNo: function (new_value, old_value) {
+      this.getData(new_value)
+    }
   }
 }
 </script>

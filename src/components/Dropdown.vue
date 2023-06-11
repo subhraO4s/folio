@@ -2,11 +2,12 @@
   <div>
     <div class="flex custom-dropdown">
       <button
+        @click="primaryButtonClicked"
         id="dropdownHoverButton"
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 pr-0"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 pr-0 w-auto"
         type="button"
       >
-        Dropdown hover
+        <slot>{{ options[0].name }}</slot>
       </button>
       <button
         @click="toggleDropdown"
@@ -36,10 +37,8 @@
       class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute"
       :class="{ hidden: !showDropdown }"
     >
-      <ul
-        class="py-2 text-sm text-gray-700 dark:text-gray-200"
-      >
-        <li v-for="(item, index) in options" :key="index">
+      <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+        <li v-for="(item, index) in dpOptions" :key="index">
           <div
             @click="item.action"
             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -56,30 +55,39 @@
 import Button from '../templates/template1/components/Button.vue'
 export default {
   components: { Button },
+  props: {
+    options: {
+      type: Array,
+      default: () => [],
+      required: true
+    }
+  },
   data() {
     return {
-      showDropdown: false,
-      options: [
-        {
-          name: 'Active',
+      showDropdown: false
+    }
+  },
+  computed: {
+    dpOptions() {
+      return this.options.map((el) => {
+        return {
+          name: el.name,
           action: () => {
-            console.log('Active')
-            this.toggleDropdown()
-          }
-        },
-        {
-          name: 'Draft',
-          action: () => {
-            console.log('Draft')
-            this.toggleDropdown()
+            el.action(), this.toggleDropdown()
           }
         }
-      ]
+      })
     }
   },
   methods: {
     toggleDropdown() {
       this.showDropdown = !this.showDropdown
+    },
+    primaryButtonClicked() {
+      if (this.showDropdown) {
+        this.showDropdown = false
+      }
+      this.options[0].action()
     }
   }
 }

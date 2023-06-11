@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      loadingConfig: false
+      loadingConfig: true
     }
   },
   computed: {
@@ -35,24 +35,22 @@ export default {
   methods: {
     async initalize() {
       this.loadingConfig = true
-      await this.getUserId()
+      await this.getUserIdAndDetails()
       if (this.uid) {
         await this.getUserName()
       }
       this.loadingConfig = false
     },
-    async getUserId() {
-      if (!this.uid) {
-        let resp = await getAccount()
-        if (resp.success) {
-          resp = resp.data
-          const payload = {
-            uid: resp.$id,
-            email: resp.email,
-            name: resp.name
-          }
-          this.$store.dispatch('auth/saveAccountData', payload)
+    async getUserIdAndDetails() {
+      let resp = await getAccount()
+      if (resp.success) {
+        resp = resp.data
+        const payload = {
+          uid: resp.$id,
+          email: resp.email,
+          name: resp.name
         }
+        this.$store.dispatch('auth/saveAccountData', payload)
       }
     },
     async getUserName() {
@@ -63,7 +61,7 @@ export default {
       }
     }
   },
-  beforeMount() {
+  mounted() {
     this.initalize()
   }
 }

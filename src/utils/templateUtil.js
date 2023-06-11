@@ -1,4 +1,4 @@
-import TemplateImage1 from '@/assets/images/template-1.png'
+import TemplateImage1 from '@/assets/images/meetup-3.jpg'
 export const templateDetails = [
   {
     tid: 1,
@@ -17,17 +17,32 @@ export const templateDetails = [
         brandName: {
           type: 'text',
           show: true,
-          value: 'Template Company'
+          value: 'Toofar'
         },
         heroSection: {
           type: 'text',
           show: true,
           value: 'Home'
         },
+        projectSection: {
+          type: 'text',
+          show: true,
+          value: 'Projects'
+        },
         aboutSection: {
           type: 'text',
           show: true,
           value: 'About'
+        },
+        missionSection: {
+          type: 'text',
+          show: true,
+          value: 'Mission'
+        },
+        blogSection: {
+          type: 'text',
+          show: true,
+          value: 'Blogs'
         },
         themeController: {
           type: 'boolean',
@@ -44,7 +59,60 @@ export const templateDetails = [
         title: {
           type: 'text',
           show: true,
-          value: 'Digital Marketing Agency and Design'
+          value: 'Organise Your Next Meet Without Any Hastle.'
+        },
+        deatils: {
+          type: 'text',
+          show: true,
+          value:
+            'We specialize in organizing inperson as well as hybrid events, connect with us and we will help you find speakers and connect with sponsors.'
+        },
+        ctaButton: {
+          type: 'text',
+          show: true,
+          value: 'Get in touch'
+        },
+        image: {
+          type: 'url',
+          show: true,
+          value: TemplateImage1
+        }
+      },
+      projectSection: {
+        show: true,
+        topHeading: {
+          type: 'text',
+          show: true,
+          value: 'What all did we do'
+        },
+        title: {
+          type: 'text',
+          show: true,
+          value: 'Here We Present to you our Flagship Projects'
+        },
+        deatils: {
+          type: 'text',
+          show: true,
+          value:
+            'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters'
+        },
+        ctaButton: {
+          type: 'text',
+          show: true,
+          value: 'Explore More Projects'
+        }
+      },
+      aboutSection: {
+        show: true,
+        topHeading: {
+          type: 'text',
+          show: true,
+          value: 'Who are we'
+        },
+        title: {
+          type: 'text',
+          show: true,
+          value: '#1 Event Management Company in the World.'
         },
         deatils: {
           type: 'text',
@@ -60,26 +128,45 @@ export const templateDetails = [
         image: {
           type: 'url',
           show: true,
-          value: 'https://flowbite.com/docs/images/blog/image-1.jpg'
+          value: TemplateImage1
         }
       },
-      projectSection: {
+      missionSection: {
         show: true,
         topHeading: {
           type: 'text',
           show: true,
-          value: 'What we do'
+          value: 'Our Mission and Goals'
         },
         title: {
           type: 'text',
           show: true,
-          value: 'Digital Marketing Agency and Design'
+          value: 'Ensure Each Meetup is Smooth and HassleFree'
         },
         deatils: {
           type: 'text',
           show: true,
           value:
             'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters'
+        },
+        ctaButton: {
+          type: 'text',
+          show: true,
+          value: 'Reach Out'
+        },
+        image: {
+          type: 'url',
+          show: true,
+          value: TemplateImage1
+        }
+      },
+      blogSection: {
+        show: true,
+        title: {
+          type: 'text',
+          show: true,
+          value:
+            'Here are some of our interesting blogs which can help you in organizing your next event.'
         }
       },
       footer: {
@@ -89,12 +176,12 @@ export const templateDetails = [
           brandName: {
             type: 'text',
             show: true,
-            value: 'Dentocare Dental'
+            value: 'Toofar'
           },
           brandDetails: {
             type: 'text',
             show: true,
-            value: 'Digital Marketing Agency and Design'
+            value: 'An Event Management Company'
           }
         },
         footerSection2: {
@@ -110,7 +197,7 @@ export const templateDetails = [
             value: [
               {
                 link: '#',
-                value: 'SEO'
+                value: 'Event Management'
               },
               {
                 link: '#',
@@ -178,7 +265,7 @@ export const templateDetails = [
               },
               {
                 link: '#',
-                value: '999 - 888 - 777'
+                value: '999 - 8888 - 777'
               },
               {
                 link: '#',
