@@ -1,18 +1,16 @@
 <template>
   <main class="main">
     <div class="home mt-16" id="home">
-      <div class="home-left">
-        <h4 class="color-primary mb-4">Award winning Company</h4>
-        <h1 class="mb-4">Digital Marketing Agency and Design</h1>
-        <h4 class="mb-4 color-secondary">
-          It is a long established fact that a reader will be distracted by the readable content of
-          a page when looking at its layout. The point of using Lorem Ipsum is that it has a
-          more-or-less normal distribution of letters
+      <div class="home-left" :class="{ 'col-span-full text-center': !data.image.show }">
+        <h4 class="color-primary mb-4" v-if="data.topHeading.show">{{ data.topHeading.value }}</h4>
+        <h1 class="mb-4" v-if="data.title.show">{{ data.title.value }}</h1>
+        <h4 class="mb-4 color-secondary" v-if="data.deatils.show">
+          {{ data.deatils.value }}
         </h4>
-        <Button label="Get in touch" />
+        <Button v-if="data.ctaButton.show" :label="data.ctaButton.value" />
       </div>
-      <div class="home-right">
-        <img src="https://flowbite.com/docs/images/blog/image-1.jpg" alt="" />
+      <div class="home-right" v-if="data.image.show">
+        <img :src="data.image.value" :alt="data.topHeading.value" />
       </div>
     </div>
   </main>
@@ -23,6 +21,12 @@ import Button from '../components/Button.vue'
 export default {
   components: {
     Button
+  },
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
   }
 }
 </script>

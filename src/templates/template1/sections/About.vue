@@ -1,32 +1,32 @@
 <template>
   <section class="center template-section" id="about">
-    <div class="about">
-      <div class="about-top">
-        <div>
-          <h4 class="color-primary mb-4">What we do</h4>
-          <h1 class="mb-4">Grwow your business with us and see the imapct</h1>
-        </div>
-        <div>
-          <h4 class="mt-10 mb-4 color-secondary">
-            It is a long established fact that a reader will be distracted by the readable content
-            of a page when looking at its layout.
-          </h4>
-        </div>
+    <div class="home">
+      <div class="home-left">
+        <img :src="data.image.value" :alt="data.topHeading.value" />
       </div>
-      <div class="about-bottom mt-16">
-        <AboutUsCards />
-        <AboutUsCards />
-        <AboutUsCards />
+      <div class="home-right">
+        <h4 class="color-primary mb-4" v-if="data.topHeading.show">{{ data.topHeading.value }}</h4>
+        <h1 class="mb-4" v-if="data.title.show">{{ data.title.value }}</h1>
+        <h4 class="mb-4 color-secondary" v-if="data.deatils.show">
+          {{ data.deatils.value }}
+        </h4>
+        <Button v-if="data.ctaButton.show" :label="data.ctaButton.value" />
       </div>
     </div>
   </section>
 </template>
 
 <script>
-import AboutUsCards from '../components/Cards.vue'
+import Button from '../components/Button.vue'
 export default {
   components: {
-    AboutUsCards
+    Button
+  },
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
   }
 }
 </script>

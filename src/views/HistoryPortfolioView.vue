@@ -29,12 +29,12 @@ import SpinnerVue from '../components/Spinner.vue'
 export default {
   components: {
     SpinnerVue,
-    Template1: defineAsyncComponent(() => import('../templates/template2/view/Page.vue')),
+    Template1: defineAsyncComponent(() => import('../templates/template1/view/Page.vue')),
     Template1ListView: defineAsyncComponent(() =>
-      import('../templates/template2/view/ListView.vue')
+      import('../templates/template1/view/ListView.vue')
     ),
     Template1IndividualView: defineAsyncComponent(() =>
-      import('../templates/template2/view/IndividualView.vue')
+      import('../templates/template1/view/IndividualView.vue')
     )
   },
   data() {

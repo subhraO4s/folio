@@ -151,7 +151,7 @@ h5 {
   height: 100%;
 }
 
-main {
+.main {
   height: calc(100vh - 8rem);
 }
 
@@ -207,6 +207,10 @@ main {
   background-color: var(--bg-color);
 }
 
+.individual-blog {
+  min-height: 100vh;
+}
+
 /*========== MEDIA QUERIES ==========*/
 @media screen and (min-width: 1024px) {
   .container {
@@ -216,7 +220,7 @@ main {
 }
 
 @media screen and (min-width: 800px) {
-  main {
+  .main {
     height: 600px;
   }
 }

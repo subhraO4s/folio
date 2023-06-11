@@ -10,10 +10,16 @@
     </template>
     <template v-else>
       <template v-if="tid == 1">
-        <template v-if="$route.name == 'blogs-portfolio-view'">
+        <template
+          v-if="$route.name == 'blogs-portfolio-view' || $route.name == 'projects-portfolio-view'"
+        >
           <Template1ListView :pageData="pageContent" />
         </template>
-        <template v-else-if="$route.name == 'blog-portfolio-view'">
+        <template
+          v-else-if="
+            $route.name == 'blog-portfolio-view' || $route.name == 'project-portfolio-view'
+          "
+        >
           <Template1IndividualView :pageData="pageContent" />
         </template>
         <template v-else> <Template1 :pageData="pageContent" /></template>
@@ -30,12 +36,12 @@ import router from '../router'
 export default {
   components: {
     SpinnerVue,
-    Template1: defineAsyncComponent(() => import('../templates/template2/view/Page.vue')),
+    Template1: defineAsyncComponent(() => import('../templates/template1/view/Page.vue')),
     Template1ListView: defineAsyncComponent(() =>
-      import('../templates/template2/view/ListView.vue')
+      import('../templates/template1/view/ListView.vue')
     ),
     Template1IndividualView: defineAsyncComponent(() =>
-      import('../templates/template2/view/IndividualView.vue')
+      import('../templates/template1/view/IndividualView.vue')
     )
   },
   data() {

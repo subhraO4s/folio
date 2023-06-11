@@ -32,7 +32,9 @@ import Blog from '../sections/Blog.vue'
 import About from '../sections/About.vue'
 import Mission from '../sections/Mission.vue'
 import ListView from './ListView.vue'
-const tid = 1
+
+const tid = 2
+
 export default {
   components: {
     Spinner,

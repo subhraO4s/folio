@@ -1,25 +1,42 @@
 <template>
   <header class="header" :class="{ 'scroll-header': addBoxShadow }" id="header">
     <nav class="nav container" :class="{ 'dark-theme': addDarkTheme }">
-      <a href="#" class="nav__logo"> The Advertising Agency </a>
+      <a @click="routeToBase()" class="nav__logo" v-if="data.brandName.show">
+        {{ data.brandName.value }}
+      </a>
+      <div v-else></div>
       <div class="nav__menu" :class="{ 'show-menu': openMenu }" id="nav-menu">
         <ul class="nav__list">
           <li class="nav__item">
-            <a href="#home" class="nav__link active-link"> Home </a>
+            <a
+              @click="routeToBase('home')"
+              class="nav__link active-link"
+              v-if="data.heroSection.show"
+            >
+              {{ data.heroSection.value }}
+            </a>
           </li>
           <li class="nav__item">
-            <a href="#about" class="nav__link"> About </a>
+            <a @click="routeToBase('project')" class="nav__link" v-if="data.projectSection.show">
+              {{ data.projectSection.value }}
+            </a>
           </li>
           <li class="nav__item">
-            <a href="#who-are-we" class="nav__link"> WhoAreWe </a>
+            <a @click="routeToBase('about')" class="nav__link" v-if="data.aboutSection.show">
+              {{ data.aboutSection.value }}
+            </a>
           </li>
           <li class="nav__item">
-            <a href="#mission" class="nav__link"> Mission </a>
+            <a @click="routeToBase('mission')" class="nav__link" v-if="data.missionSection.show">
+              {{ data.missionSection.value }}
+            </a>
           </li>
           <li class="nav__item">
-            <a href="#contact" class="nav__link"> Contact us </a>
+            <a @click="routeToBase('blog')" class="nav__link" v-if="data.blogSection.show">
+              {{ data.blogSection.value }}
+            </a>
           </li>
-          <li @click="toggleDarkMode">
+          <li @click="toggleDarkMode" class="cursor-pointer" v-if="data.themeController.show">
             <i
               class="bx bx-moon change-theme"
               :class="{ 'bx-sun': addDarkTheme }"
@@ -38,6 +55,12 @@
 
 <script>
 export default {
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       openMenu: false,
@@ -59,6 +82,21 @@ export default {
     },
     toggleDarkMode() {
       this.addDarkTheme = !this.addDarkTheme
+    },
+    routeToBase(id) {
+      const route = this.$route.fullPath.split('/')
+      const noOfPopsToBasePath = this.$route.meta.noOfPopsToBasePath
+      for (let i = 0; i < noOfPopsToBasePath; i++) {
+        route.pop()
+      }
+      const finalROute = route.join('/')
+      this.$router.push(finalROute)
+      if (id) {
+        const element = document.getElementById(id)
+        if (element) {
+          element.scrollIntoView()
+        }
+      }
     }
   },
   created() {
