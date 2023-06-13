@@ -234,15 +234,12 @@ export default {
     },
     async submitChange() {
       const payload = this.generatePayload()
-      console.log(payload)
       let resp = await updateUserSettings(payload)
       if (resp.success) {
         this.toggleEditMode()
       }
-      console.log(resp)
     },
     async isValidateUserName(userName) {
-      console.log(userName)
       // validation logic goes here
       let resp = await checkUserNameExsists(userName)
       if (resp.success) {

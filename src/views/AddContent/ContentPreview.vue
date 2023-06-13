@@ -227,7 +227,6 @@ export default {
           response = await createBlog(payload)
         }
       }
-      console.log(response)
       this.publishing = false
       if (response.success) {
         // go do somthing

@@ -281,7 +281,7 @@ export default {
       this.showModalSpinner = true
       const resp = await deletePortfolio(this.docId)
       if (resp.success) {
-        this.$router.replace('/dashboard/all-portfolio')
+        this.$router.replace('/dashboard')
       }
       this.showModalSpinner = false
     },
@@ -325,7 +325,6 @@ export default {
     async getAndSetActivePortFolioData() {
       this.loadingData = true
       let resp = await getActivePortfolio()
-      console.log(resp)
       if (resp.success && resp.data.total > 0) {
         resp = resp.data.documents.shift()
         this.docId = resp.$id

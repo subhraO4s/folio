@@ -57,7 +57,6 @@ export default {
       this.fileUploadingBind = true
       const file = event.target.files[0]
       const resp = await getFileUrlPostUpload(file)
-      console.log(resp)
       if (resp.success) {
         this.filePublicUrlBind = resp.data.href
       }

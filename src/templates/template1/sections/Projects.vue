@@ -41,7 +41,7 @@
           </template>
         </template>
       </div>
-      <div class="mt-4 center">
+      <div class="mt-4 center" v-if="postData.length > 0">
         <Button @click="showProjectsView" :label="data.ctaButton.value" />
       </div>
     </div>

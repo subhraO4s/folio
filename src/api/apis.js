@@ -217,7 +217,6 @@ const getBlogs = async (status, pageNo, customLimit) => {
   const UID = store.getters['auth/getUserId']
   const LIMIT = customLimit ? customLimit : import.meta.env.VITE_PAGINATION_LIMIT
   const OFFSET = (pageNo - 1) * LIMIT
-  console.log({ LIMIT, OFFSET })
   const QUERRY =
     status != STATUS_ENUM.ALL
       ? [
@@ -352,7 +351,6 @@ const addTemplateToProfile = async (payload) => {
 }
 
 const deletePortfolio = async (documentId) => {
-  console.log(documentId)
   const COLLECTION_ID = import.meta.env.VITE_COLLECTION_PORTFOLIOS
   let response = await deleteDocuments(COLLECTION_ID, documentId)
   if (response.success) {

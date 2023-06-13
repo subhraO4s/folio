@@ -1,5 +1,5 @@
 <template>
-  <section class="p-0 min-h-screen">
+  <section class="p-0">
     <div class="flex justify-center items-center h-full p-8">
       <Card :image="img ? img : defaultImage" :title="title" :details="abstract" />
     </div>

@@ -323,7 +323,6 @@ const router = createRouter({
 // Route guard
 router.beforeEach((to, from, next) => {
   const isLoggedIn = getCookie(LOGGED_IN_KEY)
-  console.log('ROuter', isLoggedIn)
   if (to.matched.some((record) => record.meta.requires_auth)) {
     if (isLoggedIn) {
       next()

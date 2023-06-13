@@ -28,7 +28,6 @@ export default {
           upload: async (file) => {
             let response = await getFileUrlPostUpload(file)
             const apiResult = response.success
-            console.log(response)
             return new Promise((resolve, reject) => {
               if (apiResult) {
                 const url = response.data.href

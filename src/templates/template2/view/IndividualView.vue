@@ -107,7 +107,6 @@ export default {
         this.templateData = this.pageData
         this.getPost()
       }
-      console.log('', this.templateData)
       this.loading = false
     }
   },

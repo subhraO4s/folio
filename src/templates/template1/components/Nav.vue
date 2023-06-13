@@ -70,7 +70,6 @@ export default {
   },
   methods: {
     toggleMobileMenu() {
-      console.log('yo')
       this.openMenu = !this.openMenu
     },
     checkAndAddBoxShadow() {

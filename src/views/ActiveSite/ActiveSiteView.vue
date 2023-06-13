@@ -76,7 +76,6 @@ export default {
     }
   },
   beforeMount() {
-    console.log('Mounted')
     this.fetchUserDetails()
   }
 }
