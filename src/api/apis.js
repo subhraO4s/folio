@@ -75,7 +75,6 @@ const logout = async () => {
 }
 
 const signup = async (email, password, name) => {
-  console.log({ email, password })
   let response = await middleWare(() => account.create(ID.unique(), email, password, name))
   return response
 }

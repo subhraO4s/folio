@@ -37,19 +37,21 @@
           <span class="sr-only">Toggle sidebar</span>
         </button>
         <a href="/" class="flex items-center justify-between mr-4">
-          <img src="@/assets/images/siteblaze.png" class="mr-3 h-8 bg-white" alt="SiteBlaze Logo" />
+          <img src="@/assets/images/siteblaze.jpg" class="mr-3 h-8 rounded" alt="SiteBlaze Logo" />
           <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
             >SiteBlaze</span
           >
         </a>
       </div>
       <div class="flex items-center lg:order-2">
+        <div class="mr-4">
+          <ThemeSelector />
+        </div>
         <button
           type="button"
           class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
           id="user-menu-button"
         >
-          <span class="sr-only">Open user menu</span>
           <img
             class="w-8 h-8 rounded-full border-none bg-white"
             :src="imageLink"
@@ -63,8 +65,12 @@
 
 <script>
 import defaultImage from '../assets/images/avatar.jpg'
+import ThemeSelector from './ThemeSelector.vue'
 import { getAvatar } from '../api/apis'
 export default {
+  components: {
+    ThemeSelector
+  },
   data() {
     return {
       imageLink: defaultImage

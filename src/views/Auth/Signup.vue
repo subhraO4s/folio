@@ -2,7 +2,7 @@
   <section class="bg-gray-50 dark:bg-gray-900 min-h-screen">
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
       <a class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-        <img class="w-8 h-8 mr-2 bg-white" src="@/assets/images/siteblaze.png" alt="logo" />
+        <img class="w-8 h-8 mr-2 rounded" src="@/assets/images/siteblaze.jpg" alt="logo" />
         SiteBlaze
       </a>
       <div
@@ -67,13 +67,13 @@
             </div>
             <button
               type="submit"
-              class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:bg-blue-300"
+              class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:bg-blue-300 dark:disabled:bg-blue-300"
               :disabled="!nextStageEnabled()"
             >
               Next
               <svg
                 fill="currentColor"
-                class="w-5 ml-1 rotate-180 inline"
+                class="w-5 ml-1 rotate-180 inline dark:text-white"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
                 aria-hidden="true"
@@ -134,7 +134,7 @@
                   >
                     <svg
                       v-if="passwordVisibility"
-                      class="w-5 h-5"
+                      class="w-5 h-5 dark:text-white"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -153,7 +153,7 @@
                       v-else
                       fill="currentColor"
                       viewBox="0 0 20 20"
-                      class="w-5 h-5"
+                      class="w-5 h-5 dark:text-white"
                       xmlns="http://www.w3.org/2000/svg"
                       aria-hidden="true"
                     >
@@ -192,7 +192,7 @@
                   >
                     <svg
                       v-if="confirmPasswordVisibility"
-                      class="w-5 h-5"
+                      class="w-5 h-5 dark:text-white"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -211,7 +211,7 @@
                       v-else
                       fill="currentColor"
                       viewBox="0 0 20 20"
-                      class="w-5 h-5"
+                      class="w-5 h-5 dark:text-white"
                       xmlns="http://www.w3.org/2000/svg"
                       aria-hidden="true"
                     >
@@ -243,7 +243,7 @@
                 </div>
                 <div class="ml-3 text-sm">
                   <label for="remember" class="text-gray-500 dark:text-gray-300"
-                    >I agree to terms and conditions - {{ agreeToTerms }}</label
+                    >I agree to terms and conditions</label
                   >
                 </div>
               </div>
@@ -251,18 +251,28 @@
             <button
               type="submit"
               :disabled="!signupEnabled()"
-              class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:bg-blue-300"
+              class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:bg-blue-300 dark:disabled:bg-blue-300"
             >
               Sign up
             </button>
-            <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-              Have an account yet?
-              <router-link
-                class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                to="/login"
-                >Login</router-link
-              >
-            </p>
+            <div>
+              <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+                Have an account yet?
+                <router-link
+                  class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  to="/login"
+                  >Login</router-link
+                >
+              </p>
+              <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+                Click on the link to read about our
+                <router-link
+                  class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  to="/terms-and-conditions"
+                  >Terms and Conditions</router-link
+                >
+              </p>
+            </div>
           </form>
         </div>
       </div>
@@ -333,13 +343,13 @@ export default {
     async signupTheUser() {
       if (this.password == this.confirmPassword && this.signupEnabled()) {
         let resp = await this.signupUser()
-        if (resp) {
+        if (resp.success) {
           resp = await this.loginUser()
         }
-        if (resp) {
+        if (resp.success) {
           resp = await this.createUserName()
         }
-        if (resp) {
+        if (resp.success) {
           this.createContentCountsDocuments()
           this.$router.push('/dashboard')
         } else {
@@ -354,27 +364,23 @@ export default {
     async loginUser() {
       let resp = await login(this.email, this.password)
       if (resp.success) {
-        resp = resp.data
-        this.$store.dispatch('auth/saveUserId', resp.userId)
-        setCookie(LOGGED_IN_KEY, 1, resp.expire)
-        return true
-      } else {
-        return false
+        const res = resp.data
+        this.$store.dispatch('auth/saveUserId', res.userId)
+        setCookie(LOGGED_IN_KEY, 1, res.expire)
       }
+      return resp
     },
     async signupUser() {
       let resp = await signup(this.email, this.password, this.fullName)
       if (resp.success) {
-        resp = resp.data
+        const res = resp.data
         this.$store.dispatch('auth/saveSingupData', {
           email: this.user,
-          uid: resp.$id,
-          isVerified: resp.emailVerification
+          uid: res.$id,
+          isVerified: res.emailVerification
         })
-        return true
-      } else {
-        return false
       }
+      return resp
     },
     async verifyEmail() {
       let resp = await sendVerificationEmail('http://localhost:5173/verify-email')
@@ -386,10 +392,8 @@ export default {
       let resp = await createUserDetailsLink(this.userName)
       if (resp.success) {
         this.$store.dispatch('auth/saveUserName', this.userName)
-        return true
-      } else {
-        return false
       }
+      return resp
     },
     createContentCountsDocuments() {
       createTotalItemContentCountDocumentForNewUser()

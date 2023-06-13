@@ -6,9 +6,9 @@
         class="flex justify-center items-center text-2xl font-semibold text-gray-900 dark:text-white"
       >
         <img
-          src="@/assets/images/siteblaze.png"
-          class="mr-3 h-6 sm:h-9 bg-white"
-          alt="Flowbite Logo"
+          src="@/assets/images/siteblaze.jpg"
+          class="mr-3 h-6 sm:h-9 rounded"
+          alt="SiteBlaze Logo"
         />
         SiteBlaze
       </a>
@@ -33,7 +33,9 @@
           <a href="#cta" class="mr-4 hover:underline md:mr-6">CTA</a>
         </li>
         <li>
-          <a href="#" class="mr-4 hover:underline md:mr-6">Terms and conditions</a>
+          <a href="/terms-and-conditions" class="mr-4 hover:underline md:mr-6"
+            >Terms and conditions</a
+          >
         </li>
       </ul>
       <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400"

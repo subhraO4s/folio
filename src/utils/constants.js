@@ -43,3 +43,5 @@ export const MONTH_MAP = new Map([
   [11, 'Nov'],
   [12, 'Dec']
 ])
+
+export const COLOR_THEME_SELECTOR_KEY = 'color-theme'

@@ -4,13 +4,8 @@
       class="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 grid md:grid-cols-2 sm:py-16 lg:px-6"
     >
       <img
-        class="w-full dark:hidden max-md:order-last"
+        class="w-full max-md:order-last rounded"
         src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/cta/cta-dashboard-mockup.svg"
-        alt="dashboard image"
-      />
-      <img
-        class="w-full hidden dark:block max-md:order-last"
-        src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/cta/cta-dashboard-mockup-dark.svg"
         alt="dashboard image"
       />
       <div class="mt-8 sm:mt-4 md:mt-0">

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { getCookie } from '@/utils/cookieHelper'
 import { LOGGED_IN_KEY } from '@/utils/constants'
 import LandingPage from '../views/LandingPage/LandingPageView.vue'
+import TermsAndConditions from '../views/LandingPage/TermsAndConditions.vue'
 import Signup from '../views/Auth/Signup.vue'
 import Login from '../views/Auth/Login.vue'
 import Dashboard from '../views/Dashboard/Dashboard.vue'
@@ -29,6 +30,11 @@ const router = createRouter({
       component: LandingPage
     },
     {
+      path: '/terms-and-conditions',
+      name: 'terms-and-conditions',
+      component: TermsAndConditions
+    },
+    {
       path: '/signup',
       name: 'signup',
       component: Signup
@@ -44,7 +50,7 @@ const router = createRouter({
         {
           path: '',
           name: 'portfolio-view',
-          component: () => ActiveSiteView,
+          component: ActiveSiteView,
           meta: {
             noOfPopsToBasePath: 0
           }

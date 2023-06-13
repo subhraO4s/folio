@@ -7,7 +7,6 @@
       <ul class="space-y-2">
         <li @click="routeTo(routes.get(ALL_PORTFOLIO))">
           <a
-            href="#"
             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             :class="{
               'active-side-nav-link': this.$route.fullPath == routes.get(ALL_PORTFOLIO)
@@ -63,7 +62,6 @@
         </li>
         <li @click="routeTo(routes.get(TEMPLATE))">
           <a
-            href="#"
             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             :class="{
               'active-side-nav-link': this.$route.fullPath == routes.get(TEMPLATE)
@@ -117,7 +115,6 @@
         </li>
         <li @click="routeTo(routes.get(BLOGS))">
           <a
-            href="#"
             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             :class="{
               'active-side-nav-link': this.$route.fullPath == routes.get(BLOGS)
@@ -145,7 +142,6 @@
         </li>
         <li @click="routeTo(routes.get(CTA))">
           <a
-            href="#"
             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             :class="{
               'active-side-nav-link': this.$route.fullPath == routes.get(CTA)
@@ -174,7 +170,6 @@
       <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
         <li @click="routeTo(routes.get(SETTINGS))">
           <a
-            href="#"
             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
             :class="{
               'active-side-nav-link': this.$route.fullPath == routes.get(SETTINGS)
@@ -201,7 +196,6 @@
         </li>
         <li @click="routeTo(routes.get(CHANGE_PASSWORD))">
           <a
-            href="#"
             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
             :class="{
               'active-side-nav-link': this.$route.fullPath == routes.get(CHANGE_PASSWORD)

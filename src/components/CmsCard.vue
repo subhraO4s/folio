@@ -3,7 +3,7 @@
     class="max-w-sm m-0 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
   >
     <a>
-      <img class="rounded-t-lg" src="https://flowbite.com/docs/images/blog/image-1.jpg" alt="" />
+      <img class="rounded-t-lg" src="" alt="" />
     </a>
     <div class="p-5">
       <a>

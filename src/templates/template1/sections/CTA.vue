@@ -41,7 +41,7 @@
           ></textarea>
         </div>
         <div class="center" v-if="data.ctaButton.show">
-          <Button @click="submitData" :label="data.ctaButton.value" />
+          <Button @click="submitData" :loading="sendingData" :label="data.ctaButton.value" />
         </div>
       </div>
     </div>
@@ -65,7 +65,8 @@ export default {
     return {
       querry: '',
       phoneno: '',
-      email: ''
+      email: '',
+      sendingData: false
     }
   },
   methods: {
@@ -76,11 +77,19 @@ export default {
         input3: this.querry
       }
     },
+    resetData() {
+      this.email = ''
+      this.phoneno = ''
+      this.querry = ''
+    },
     async submitData() {
+      this.sendingData = true
       const payload = this.generatePayload()
       const resp = await createCTAQuerry(payload)
       if (resp.success) {
+        this.resetData()
       }
+      this.sendingData = false
     }
   }
 }

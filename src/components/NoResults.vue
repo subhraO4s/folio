@@ -1,6 +1,6 @@
 <template>
   <div class="pt-8 pb-8 flex flex-col justify-center items-center">
-    <img src="@/assets/images/siteblaze.png" class="animate" alt="" />
+    <img src="@/assets/images/siteblaze.jpg" class="animate rounded" alt="" />
     <div class="text-2xl font-semibold pt-8 dark:text-white">{{ label }}</div>
   </div>
 </template>
