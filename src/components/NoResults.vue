@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col justify-center items-center">
-    <img src="@/assets/images/no-results.png" alt="" />
-    <div class="text-md font-semibold">{{ label }}</div>
+  <div class="pt-8 pb-8 flex flex-col justify-center items-center">
+    <img src="@/assets/images/siteblaze.png" class="animate" alt="" />
+    <div class="text-2xl font-semibold pt-8 dark:text-white">{{ label }}</div>
   </div>
 </template>
 
@@ -15,3 +15,26 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.animate {
+  -webkit-animation: mover 1s infinite alternate ease-in-out;
+  animation: mover 1s infinite alternate ease-in-out;
+}
+@-webkit-keyframes move-up {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-20px);
+  }
+}
+@keyframes mover {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-20px);
+  }
+}
+</style>

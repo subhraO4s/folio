@@ -40,8 +40,16 @@ a {
   cursor: pointer;
 }
 
+.bx-shadow {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
 @media screen and (max-width: 640px) {
   .password-wrap {
     padding: 0.75rem;
   }
+}
+
+#backdrop {
+  @apply bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-30;
 }

@@ -5,9 +5,7 @@
     <div class="flex flex-wrap justify-between items-center">
       <div class="flex justify-start items-center">
         <button
-          data-drawer-target="drawer-navigation"
-          data-drawer-toggle="drawer-navigation"
-          aria-controls="drawer-navigation"
+          @click="toggleSideBar"
           class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
         >
           <svg
@@ -38,12 +36,8 @@
           </svg>
           <span class="sr-only">Toggle sidebar</span>
         </button>
-        <a href="https://flowbite.com" class="flex items-center justify-between mr-4">
-          <img
-            src="https://flowbite.s3.amazonaws.com/logo.svg"
-            class="mr-3 h-8"
-            alt="SiteBlaze Logo"
-          />
+        <a href="/" class="flex items-center justify-between mr-4">
+          <img src="@/assets/images/siteblaze.png" class="mr-3 h-8 bg-white" alt="SiteBlaze Logo" />
           <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
             >SiteBlaze</span
           >
@@ -82,6 +76,21 @@ export default {
       if (resp.success) {
         this.imageLink = resp.data.href
         this.$store.dispatch('auth/saveAvatar', this.imageLink)
+      }
+    },
+    toggleSideBar() {
+      const element = document.getElementById('drawer-navigation')
+      const backdrop = document.getElementById('backdrop')
+      document.body.classList.toggle('overflow-hidden')
+      backdrop.classList.toggle('hidden')
+      if (element.classList.contains('transform-none')) {
+        element.ariaModal = false
+        element.role = ''
+        element.classList.remove('transform-none')
+      } else {
+        element.classList.add('transform-none')
+        element.ariaModal = true
+        element.role = 'dialog'
       }
     }
   },

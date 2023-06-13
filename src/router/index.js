@@ -1,34 +1,33 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { getCookie } from '@/utils/cookieHelper'
 import { LOGGED_IN_KEY } from '@/utils/constants'
-import Dashboard from '../views/Dashboard.vue'
-import Overview from '../views/Overview.vue'
-import TemplateView from '../views/Templates.vue'
-import Signup from '../views/auth/Signup.vue'
-import Login from '../views/auth/Login.vue'
-import VerificationLinkSent from '../views/auth/VerificationLinkSent.vue'
-import VerifyingEmail from '../views/auth/VerifyingEmail.vue'
-import ForgotPassword from '../views/auth/ForgotPassword.vue'
-import ResetPassword from '../views/auth/ResetPassword.vue'
-import UserDetails from '../views/Userdetails.vue'
-import Blogs from '../views/Blogs.vue'
-import Projects from '../views/Projects.vue'
-import ChangePassword from '../views/ChangePassword.vue'
-import Settings from '../views/Settings.vue'
-import ActivePortfolio from '../views/ActivePortfolio.vue'
-import AllPortfolio from '../views/AllPortfolio.vue'
-import Template1 from '../templates/template1/view/Page.vue'
-import Template2 from '../templates/template1/view/Page.vue'
-import AddContent from '../views/addContent/AddContent.vue'
-import PortfolioView from '../views/PortfolioView.vue'
-import HistoryPortfolioView from '../views/HistoryPortfolioView.vue'
-import ListView from '../templates/template1/view/ListView.vue'
-import IndividualView from '../templates/template1/view/IndividualView.vue'
+import LandingPage from '../views/LandingPage/LandingPageView.vue'
+import Signup from '../views/Auth/Signup.vue'
+import Login from '../views/Auth/Login.vue'
+import Dashboard from '../views/Dashboard/Dashboard.vue'
+import ActiveSiteView from '../views/ActiveSite/ActiveSiteView.vue'
+import HistorActiveSiteView from '../views/HistorySite/HistoryActiveSiteView.vue'
+import MyTemplates from '../views/MyTemplates/MyTemplates.vue'
+import TemplateStore from '../views/Templates/Templates.vue'
+import MyActiveSite from '../views/MyActiveSite/MyActiveSite.vue'
+import Projects from '../views/Projects/Projects.vue'
+import Blogs from '../views/Blogs/Blogs.vue'
+import AddContent from '../views/AddContent/AddContent.vue'
+import Cta from '../views/CTA/CtaData.vue'
+import EditCta from '../views/CTA/EditCtaData.vue'
+import UserSettings from '../views/AccountSettings/Settings.vue'
+import ChangePassword from '../views/ChangePassword/ChangePassword.vue'
+
 import { CONTENT_TYPE_ENUM } from '@/utils/constants'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/',
+      name: 'landing',
+      component: LandingPage
+    },
     {
       path: '/signup',
       name: 'signup',
@@ -45,7 +44,7 @@ const router = createRouter({
         {
           path: '',
           name: 'portfolio-view',
-          component: PortfolioView,
+          component: () => ActiveSiteView,
           meta: {
             noOfPopsToBasePath: 0
           }
@@ -53,7 +52,7 @@ const router = createRouter({
         {
           path: 'blogs',
           name: 'blogs-portfolio-view',
-          component: PortfolioView,
+          component: ActiveSiteView,
           meta: {
             noOfPopsToBasePath: 1,
             contentType: CONTENT_TYPE_ENUM.BLOG
@@ -62,7 +61,7 @@ const router = createRouter({
         {
           path: 'blogs/:doc',
           name: 'blog-portfolio-view',
-          component: PortfolioView,
+          component: ActiveSiteView,
           meta: {
             noOfPopsToBasePath: 2,
             contentType: CONTENT_TYPE_ENUM.BLOG
@@ -71,7 +70,7 @@ const router = createRouter({
         {
           path: 'projects',
           name: 'projects-portfolio-view',
-          component: PortfolioView,
+          component: ActiveSiteView,
           meta: {
             noOfPopsToBasePath: 1,
             contentType: CONTENT_TYPE_ENUM.PROJECT
@@ -80,7 +79,7 @@ const router = createRouter({
         {
           path: 'projects/:doc',
           name: 'project-portfolio-view',
-          component: PortfolioView,
+          component: ActiveSiteView,
           meta: {
             noOfPopsToBasePath: 2,
             contentType: CONTENT_TYPE_ENUM.PROJECT
@@ -97,7 +96,7 @@ const router = createRouter({
         {
           path: '',
           name: 'history-view',
-          component: HistoryPortfolioView,
+          component: HistorActiveSiteView,
           meta: {
             noOfPopsToBasePath: 0
           }
@@ -105,7 +104,7 @@ const router = createRouter({
         {
           path: 'blogs',
           name: 'blogs-history-view',
-          component: HistoryPortfolioView,
+          component: HistorActiveSiteView,
           meta: {
             noOfPopsToBasePath: 1,
             contentType: CONTENT_TYPE_ENUM.BLOG
@@ -114,7 +113,7 @@ const router = createRouter({
         {
           path: 'blogs/:doc',
           name: 'blog-history-view',
-          component: HistoryPortfolioView,
+          component: HistorActiveSiteView,
           meta: {
             noOfPopsToBasePath: 2,
             contentType: CONTENT_TYPE_ENUM.BLOG
@@ -123,47 +122,22 @@ const router = createRouter({
         {
           path: 'projects',
           name: 'projects-history-view',
-          component: HistoryPortfolioView,
+          component: HistorActiveSiteView,
           meta: {
             noOfPopsToBasePath: 1,
             contentType: CONTENT_TYPE_ENUM.PROJECT
           }
         },
         {
-          path: 'project/:doc',
+          path: 'projects/:doc',
           name: 'project-history-view',
-          component: HistoryPortfolioView,
+          component: HistorActiveSiteView,
           meta: {
             noOfPopsToBasePath: 2,
             contentType: CONTENT_TYPE_ENUM.PROJECT
           }
         }
       ]
-    },
-    {
-      path: '/verification-link-sent',
-      name: 'verification-link-sent',
-      component: VerificationLinkSent
-    },
-    {
-      path: '/verify-email',
-      name: 'verify-email',
-      component: VerifyingEmail
-    },
-    {
-      path: '/forgot-password',
-      name: 'forgot-password',
-      component: ForgotPassword
-    },
-    {
-      path: '/reset-password',
-      name: 'reset-password',
-      component: ResetPassword
-    },
-    {
-      path: '/user-details',
-      name: '/user-details',
-      component: UserDetails
     },
     {
       path: '/dashboard',
@@ -175,18 +149,18 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'overview',
-          component: Overview
+          name: 'all-portfolio',
+          component: MyTemplates
         },
         {
           path: 'templates',
           name: 'templates',
-          component: TemplateView
+          component: TemplateStore
         },
         {
           path: 'settings',
           name: 'settings',
-          component: Settings
+          component: UserSettings
         },
         {
           path: 'cms/projects',
@@ -214,19 +188,24 @@ const router = createRouter({
           component: ChangePassword
         },
         {
-          path: 'all-portfolio',
-          name: 'all-portfolio',
-          component: AllPortfolio
+          path: 'cms/cta',
+          name: 'cta',
+          component: Cta
+        },
+        {
+          path: 'cms/cta/edit',
+          name: 'cta-data-edit',
+          component: EditCta
         },
         {
           path: 'active-portfolio',
           name: 'active-portfolio',
-          component: ActivePortfolio
+          component: MyActiveSite
         },
         {
           path: 'manage-portfolio/:id',
           name: 'manage-portfolio',
-          component: ActivePortfolio
+          component: MyActiveSite
         }
       ]
     },
@@ -243,7 +222,7 @@ const router = createRouter({
             {
               path: '',
               name: 'template-1',
-              component: Template2,
+              component: () => import('../templates/template1/view/Page.vue'),
               meta: {
                 noOfPopsToBasePath: 0
               }
@@ -251,7 +230,7 @@ const router = createRouter({
             {
               path: 'blogs',
               name: 'blogs-template-1',
-              component: ListView,
+              component: () => import('../templates/template1/view/ListView.vue'),
               meta: {
                 noOfPopsToBasePath: 1,
                 contentType: CONTENT_TYPE_ENUM.BLOG
@@ -260,7 +239,7 @@ const router = createRouter({
             {
               path: 'blogs/:doc',
               name: 'blog-template-1',
-              component: IndividualView,
+              component: () => import('../templates/template1/view/IndividualView.vue'),
               meta: {
                 noOfPopsToBasePath: 2,
                 contentType: CONTENT_TYPE_ENUM.BLOG
@@ -269,7 +248,7 @@ const router = createRouter({
             {
               path: 'projects',
               name: 'projects-template-1',
-              component: ListView,
+              component: () => import('../templates/template1/view/ListView.vue'),
               meta: {
                 noOfPopsToBasePath: 1,
                 contentType: CONTENT_TYPE_ENUM.PROJECT
@@ -278,7 +257,7 @@ const router = createRouter({
             {
               path: 'projects/:doc',
               name: 'project-template-1',
-              component: IndividualView,
+              component: () => import('../templates/template1/view/IndividualView.vue'),
               meta: {
                 noOfPopsToBasePath: 2,
                 contentType: CONTENT_TYPE_ENUM.PROJECT
@@ -292,6 +271,42 @@ const router = createRouter({
           component: () => import('../templates/template2/view/Page.vue'),
           meta: {
             isTemplate: true
+          }
+        },
+        {
+          path: 'blogs',
+          name: 'blogs-template-2',
+          component: () => import('../templates/template1/view/ListView.vue'),
+          meta: {
+            noOfPopsToBasePath: 1,
+            contentType: CONTENT_TYPE_ENUM.BLOG
+          }
+        },
+        {
+          path: 'blogs/:doc',
+          name: 'blog-template-2',
+          component: () => import('../templates/template1/view/IndividualView.vue'),
+          meta: {
+            noOfPopsToBasePath: 2,
+            contentType: CONTENT_TYPE_ENUM.BLOG
+          }
+        },
+        {
+          path: 'projects',
+          name: 'projects-template-2',
+          component: () => import('../templates/template1/view/ListView.vue'),
+          meta: {
+            noOfPopsToBasePath: 1,
+            contentType: CONTENT_TYPE_ENUM.PROJECT
+          }
+        },
+        {
+          path: 'projects/:doc',
+          name: 'project-template-2',
+          component: () => import('../templates/template1/view/IndividualView.vue'),
+          meta: {
+            noOfPopsToBasePath: 2,
+            contentType: CONTENT_TYPE_ENUM.PROJECT
           }
         }
       ]

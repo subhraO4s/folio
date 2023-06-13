@@ -13,6 +13,7 @@
       <About :data="templateData.aboutSection" />
       <Mission :data="templateData.missionSection" />
       <Blog :data="templateData.blogSection" />
+      <CTA :data="templateData.ctaSection" />
       <Footer :data="templateData.footer" />
     </div>
   </template>
@@ -32,6 +33,7 @@ import Blog from '../sections/Blog.vue'
 import About from '../sections/About.vue'
 import Mission from '../sections/Mission.vue'
 import ListView from './ListView.vue'
+import CTA from '../sections/CTA.vue'
 const tid = 1
 export default {
   components: {
@@ -43,7 +45,8 @@ export default {
     Blog,
     About,
     Mission,
-    ListView
+    ListView,
+    CTA
   },
   props: {
     pageData: {

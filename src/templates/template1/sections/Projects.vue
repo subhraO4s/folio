@@ -1,5 +1,5 @@
 <template>
-  <section class="center template-section" id="project">
+  <section class="center template-section" id="project" v-if="data.show">
     <div class="about">
       <div class="about-top">
         <div>
@@ -27,7 +27,7 @@
         </template>
         <template v-else>
           <template v-if="loading">
-            <Spinner />
+            <Spinner class="col-start-2" />
           </template>
           <template v-else>
             <AboutUsCards

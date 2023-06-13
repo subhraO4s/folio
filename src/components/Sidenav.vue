@@ -1,15 +1,13 @@
 <template>
   <aside
     class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
-    aria-label="Sidenav"
     id="drawer-navigation"
   >
     <div class="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
       <ul class="space-y-2">
-        <li>
+        <li @click="routeTo(routes.get(ALL_PORTFOLIO))">
           <a
             href="#"
-            @click="routeTo(routes.get(ALL_PORTFOLIO))"
             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             :class="{
               'active-side-nav-link': this.$route.fullPath == routes.get(ALL_PORTFOLIO)
@@ -35,10 +33,9 @@
             <span class="ml-3">My Templates</span>
           </a>
         </li>
-        <li>
+        <li @click="routeTo(routes.get(ACTIVE_PORTFOLIO))">
           <button
             type="button"
-            @click="routeTo(routes.get(ACTIVE_PORTFOLIO))"
             class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
             :class="{
               'active-side-nav-link': this.$route.fullPath == routes.get(ACTIVE_PORTFOLIO)
@@ -61,13 +58,12 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-            <span class="flex-1 ml-3 text-left whitespace-nowrap">My Active Portfolio</span>
+            <span class="flex-1 ml-3 text-left whitespace-nowrap">My Active Site</span>
           </button>
         </li>
-        <li>
+        <li @click="routeTo(routes.get(TEMPLATE))">
           <a
             href="#"
-            @click="routeTo(routes.get(TEMPLATE))"
             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             :class="{
               'active-side-nav-link': this.$route.fullPath == routes.get(TEMPLATE)
@@ -92,10 +88,9 @@
             <span class="flex-1 ml-3 text-left whitespace-nowrap">Template Store</span>
           </a>
         </li>
-        <li>
+        <li @click="routeTo(routes.get(PROJECTS))">
           <button
             type="button"
-            @click="routeTo(routes.get(PROJECTS))"
             class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
             :class="{
               'active-side-nav-link': this.$route.fullPath == routes.get(PROJECTS)
@@ -120,10 +115,9 @@
             <span class="flex-1 ml-3 text-left whitespace-nowrap">Projects</span>
           </button>
         </li>
-        <li>
+        <li @click="routeTo(routes.get(BLOGS))">
           <a
             href="#"
-            @click="routeTo(routes.get(BLOGS))"
             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             :class="{
               'active-side-nav-link': this.$route.fullPath == routes.get(BLOGS)
@@ -149,12 +143,38 @@
             <span class="flex-1 ml-3 whitespace-nowrap">Blogs</span>
           </a>
         </li>
-      </ul>
-      <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
-        <li>
+        <li @click="routeTo(routes.get(CTA))">
           <a
             href="#"
-            @click="routeTo(routes.get(SETTINGS))"
+            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            :class="{
+              'active-side-nav-link': this.$route.fullPath == routes.get(CTA)
+            }"
+          >
+            <svg
+              class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+              :class="{
+                'text-gray-900 dark:text-white': this.$route.fullPath == routes.get(CTA)
+              }"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                clip-rule="evenodd"
+                fill-rule="evenodd"
+                d="M6.111 11.89A5.5 5.5 0 1115.501 8 .75.75 0 1017 8a7 7 0 10-11.95 4.95.75.75 0 001.06-1.06zm2.121-5.658a2.5 2.5 0 000 3.536.75.75 0 11-1.06 1.06A4 4 0 1114 8a.75.75 0 01-1.5 0 2.5 2.5 0 00-4.268-1.768zm2.534 1.279a.75.75 0 00-1.37.364l-.492 6.861a.75.75 0 001.204.65l1.043-.799.985 3.678a.75.75 0 001.45-.388l-.978-3.646 1.292.204a.75.75 0 00.74-1.16l-3.874-5.764z"
+              ></path>
+            </svg>
+            <span class="flex-1 ml-3 whitespace-nowrap">CTA Querries</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
+        <li @click="routeTo(routes.get(SETTINGS))">
+          <a
+            href="#"
             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
             :class="{
               'active-side-nav-link': this.$route.fullPath == routes.get(SETTINGS)
@@ -176,13 +196,12 @@
                 d="M7.84 1.804A1 1 0 018.82 1h2.36a1 1 0 01.98.804l.331 1.652a6.993 6.993 0 011.929 1.115l1.598-.54a1 1 0 011.186.447l1.18 2.044a1 1 0 01-.205 1.251l-1.267 1.113a7.047 7.047 0 010 2.228l1.267 1.113a1 1 0 01.206 1.25l-1.18 2.045a1 1 0 01-1.187.447l-1.598-.54a6.993 6.993 0 01-1.929 1.115l-.33 1.652a1 1 0 01-.98.804H8.82a1 1 0 01-.98-.804l-.331-1.652a6.993 6.993 0 01-1.929-1.115l-1.598.54a1 1 0 01-1.186-.447l-1.18-2.044a1 1 0 01.205-1.251l1.267-1.114a7.05 7.05 0 010-2.227L1.821 7.773a1 1 0 01-.206-1.25l1.18-2.045a1 1 0 011.187-.447l1.598.54A6.993 6.993 0 017.51 3.456l.33-1.652zM10 13a3 3 0 100-6 3 3 0 000 6z"
               ></path>
             </svg>
-            <span class="ml-3">Account Settings</span>
+            <span class="ml-3">Account Details</span>
           </a>
         </li>
-        <li>
+        <li @click="routeTo(routes.get(CHANGE_PASSWORD))">
           <a
             href="#"
-            @click="routeTo(routes.get(CHANGE_PASSWORD))"
             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
             :class="{
               'active-side-nav-link': this.$route.fullPath == routes.get(CHANGE_PASSWORD)
@@ -207,9 +226,8 @@
             <span class="ml-3">Change Password</span>
           </a>
         </li>
-        <li>
+        <li @click="logoutUser">
           <a
-            @click="logoutUser"
             class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group cursor-pointer"
           >
             <svg
@@ -249,6 +267,7 @@ import {
   CHANGE_PASSWORD,
   ALL_PORTFOLIO,
   ACTIVE_PORTFOLIO,
+  CTA,
   ROUTE_MAP
 } from '../utils/constants'
 export default {
@@ -262,7 +281,8 @@ export default {
       BLOGS: BLOGS,
       CHANGE_PASSWORD: CHANGE_PASSWORD,
       ALL_PORTFOLIO: ALL_PORTFOLIO,
-      ACTIVE_PORTFOLIO: ACTIVE_PORTFOLIO
+      ACTIVE_PORTFOLIO: ACTIVE_PORTFOLIO,
+      CTA: CTA
     }
   },
   methods: {

@@ -5,7 +5,7 @@
     </div>
   </template>
   <template v-else>
-    <Nav :data="templateData.navigation" />P
+    <Nav :data="templateData.navigation" />
 
     <div class="container vh100">
       <section class="template-section individual-blog" id="blog">
@@ -114,6 +114,8 @@ export default {
   },
   mounted() {
     this.intialize()
+    document.body.scrollTop = 0 // For Safari
+    document.documentElement.scrollTop = 0 // For Chrome, Firefox, IE and Opera
   }
 }
 </script>

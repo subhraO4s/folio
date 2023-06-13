@@ -50,9 +50,10 @@ export default {
   methods: {
     goToIndividualPost() {
       const noOfPopsToBasePath = this.$route.meta.noOfPopsToBasePath
+      const routeTo = this.cardType && this.cardType == 'blog' ? '/blogs' : '/projects'
       const finalRoute =
         noOfPopsToBasePath == 0
-          ? this.$route.path + '/blogs/' + this.docId
+          ? this.$route.path + routeTo + '/' + this.docId
           : this.$route.path + '/' + this.docId
       this.$router.push(finalRoute)
     },

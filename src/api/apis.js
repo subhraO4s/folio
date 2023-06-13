@@ -18,6 +18,7 @@ const middleWare = async (fun) => {
   } catch (error) {
     if (error.code == 401) {
       deleteCookie(LOGGED_IN_KEY)
+      logout()
       window.location.replace('/login')
     }
     response = {
@@ -115,7 +116,7 @@ const changeName = async (name) => {
 }
 
 const changeUserName = async (newUserName) => {
-  const COLLECTION_ID = import.meta.env.VITE_COLLECTION_PROJECTS
+  const COLLECTION_ID = import.meta.env.VITE_COLLECTION_USER_DETAILS
   const DOCUMENT_ID = store.getters['auth/getUserName']
   let response = await getSingleDocument(COLLECTION_ID, DOCUMENT_ID)
   if (response.success) {
@@ -203,9 +204,12 @@ const editProject = async (documentId, paylaod, previousStatus) => {
   return response
 }
 
-const deleteProject = async (documentId) => {
+const deleteProject = async (documentId, state) => {
   const COLLECTION_ID = import.meta.env.VITE_COLLECTION_PROJECTS
-  const response = await deleteDocuments(COLLECTION_ID, documentId)
+  let response = await deleteDocuments(COLLECTION_ID, documentId)
+  if (response.success) {
+    response = await deleteContentCounts(CONTENT_TYPE_ENUM.PROJECT, state)
+  }
   return response
 }
 
@@ -269,9 +273,12 @@ const editBlog = async (documentId, paylaod, previousStatus) => {
   return response
 }
 
-const deleteBlog = async (documentId) => {
+const deleteBlog = async (documentId, state) => {
   const COLLECTION_ID = import.meta.env.VITE_COLLECTION_BLOGS
-  const response = await deleteDocuments(COLLECTION_ID, documentId)
+  let response = await deleteDocuments(COLLECTION_ID, documentId)
+  if (response.success) {
+    response = await deleteContentCounts(CONTENT_TYPE_ENUM.BLOG, state)
+  }
   return response
 }
 
@@ -408,7 +415,7 @@ const updateUserSettings = async (paylaod) => {
   }
 
   if (paylaod.email) {
-    response = await changeName(paylaod.email, paylaod.password)
+    response = await changeEmail(paylaod.email, paylaod.password)
     if (!response.success) return response
   }
 
@@ -464,7 +471,12 @@ const addContentCounts = async (contentType, status) => {
 }
 
 const editContentCounts = async (contentType, previousStatus, currentStatus) => {
-  if (previousStatus == currentStatus) return
+  if (previousStatus == currentStatus) {
+    return {
+      success: true,
+      data: true
+    }
+  }
   const COLLECTION_ID =
     contentType == CONTENT_TYPE_ENUM.BLOG
       ? import.meta.env.VITE_COLLECTION_BLOG_COUNT
@@ -492,6 +504,24 @@ const editContentCounts = async (contentType, previousStatus, currentStatus) => 
   return response
 }
 
+const deleteContentCounts = async (contentType, state) => {
+  const COLLECTION_ID =
+    contentType == CONTENT_TYPE_ENUM.BLOG
+      ? import.meta.env.VITE_COLLECTION_BLOG_COUNT
+      : import.meta.env.VITE_COLLECTION_PROJECT_COUNT
+  const UID = store.getters['auth/getUserId']
+  let response = await getSingleDocument(COLLECTION_ID, UID)
+  if (response.success) {
+    const paylaod = {
+      online: state == STATUS_ENUM.ONLINE ? response.data.online - 1 : response.data.online,
+      draft: state == STATUS_ENUM.DRAFT ? response.data.draft - 1 : response.data.draft,
+      all: response.data.all - 1
+    }
+    response = await updateDocuments(COLLECTION_ID, UID, paylaod)
+  }
+  return response
+}
+
 const createTotalItemContentCountDocumentForNewUser = async () => {
   const COLLECTION_ID_BLOG = import.meta.env.VITE_COLLECTION_BLOG_COUNT
   const COLLECTION_ID_PROJECT = import.meta.env.VITE_COLLECTION_PROJECT_COUNT
@@ -507,7 +537,8 @@ const createTotalItemContentCountDocumentForNewUser = async () => {
   const blogResp = middleWare(() =>
     databases.createDocument(DB_ID, COLLECTION_ID_BLOG, UID, paylaod)
   )
-  return Promise.all([projectResp, blogResp])
+  const ctaCount = createCTAQuerryCount()
+  return Promise.all([projectResp, blogResp, ctaCount])
 }
 
 const getTotalItemContentCount = async (contentType) => {
@@ -517,6 +548,88 @@ const getTotalItemContentCount = async (contentType) => {
       : import.meta.env.VITE_COLLECTION_PROJECT_COUNT
   const UID = store.getters['auth/getUserId']
   let response = await getSingleDocument(COLLECTION_ID, UID)
+  return response
+}
+
+const createCTAQuerry = async (paylaod) => {
+  const COLLECTION_ID = import.meta.env.VITE_COLLECTION_CTA
+  const UID = store.getters['auth/getUserId']
+  const finalPayload = {
+    uid: UID,
+    ...paylaod
+  }
+  let response = await createDocuments(COLLECTION_ID, finalPayload)
+  if (response.success) {
+    response = await getCTAQuerryCount()
+    if (response.success) {
+      const paylaod = { all: response.data.all + 1 }
+      response = await editCTAQuerryCount(paylaod)
+    }
+  }
+  return response
+}
+
+const getCTAQuerry = async (pageNo) => {
+  const COLLECTION_ID = import.meta.env.VITE_COLLECTION_CTA
+  const UID = store.getters['auth/getUserId']
+  const LIMIT = import.meta.env.VITE_PAGINATION_LIMIT
+  const OFFSET = (pageNo - 1) * LIMIT
+  const QUERRY = [Query.equal('uid', [UID]), Query.limit(LIMIT), Query.offset(OFFSET)]
+  const response = await getDocuments(COLLECTION_ID, QUERRY)
+  return response
+}
+
+const deleteCTAQuerry = async (DOCUMENT_ID) => {
+  const COLLECTION_ID = import.meta.env.VITE_COLLECTION_CTA
+  let response = await deleteDocuments(COLLECTION_ID, DOCUMENT_ID)
+  if (response.success) {
+    response = await getCTAQuerryCount()
+    if (response.success) {
+      const paylaod = { all: response.data.all - 1 }
+      response = await editCTAQuerryCount(paylaod)
+    }
+  }
+  return response
+}
+
+const editCTAQuerry = async (DOCUMENT_ID, paylaod) => {
+  const COLLECTION_ID = import.meta.env.VITE_COLLECTION_CTA
+  const UID = store.getters['auth/getUserId']
+  const finalPayload = {
+    uid: UID,
+    ...paylaod
+  }
+  const response = await updateDocuments(COLLECTION_ID, DOCUMENT_ID, finalPayload)
+  return response
+}
+
+const createCTAQuerryCount = async () => {
+  const COLLECTION_ID = import.meta.env.VITE_COLLECTION_CTA_COUNT
+  const DOCUMENT_ID = store.getters['auth/getUserId']
+  const paylaod = { all: 0 }
+  const response = await middleWare(() =>
+    databases.createDocument(DB_ID, COLLECTION_ID, DOCUMENT_ID, paylaod)
+  )
+  return response
+}
+
+const getCTAQuerryCount = async () => {
+  const COLLECTION_ID = import.meta.env.VITE_COLLECTION_CTA_COUNT
+  const DOCUMENT_ID = store.getters['auth/getUserId']
+  const response = await getSingleDocument(COLLECTION_ID, DOCUMENT_ID)
+  return response
+}
+
+// const deleteCTAQuerryCount = async (DOCUMENT_ID) => {
+//   const COLLECTION_ID = import.meta.env.VITE_COLLECTION_CTA
+//   const response = await deleteDocuments(COLLECTION_ID, DOCUMENT_ID)
+//   return response
+// }
+
+const editCTAQuerryCount = async (paylaod) => {
+  const COLLECTION_ID = import.meta.env.VITE_COLLECTION_CTA_COUNT
+  const DOCUMENT_ID = store.getters['auth/getUserId']
+  const response = await updateDocuments(COLLECTION_ID, DOCUMENT_ID, paylaod)
   return response
 }
 
@@ -558,5 +671,10 @@ export {
   checkUserNameExsists,
   createUserDetailsLink,
   getTotalItemContentCount,
-  createTotalItemContentCountDocumentForNewUser
+  createTotalItemContentCountDocumentForNewUser,
+  createCTAQuerry,
+  getCTAQuerry,
+  deleteCTAQuerry,
+  editCTAQuerry,
+  getCTAQuerryCount
 }

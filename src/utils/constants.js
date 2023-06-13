@@ -6,15 +6,16 @@ export const BLOGS = 'blogs'
 export const CHANGE_PASSWORD = 'change-password'
 export const ALL_PORTFOLIO = 'all-portfolio'
 export const ACTIVE_PORTFOLIO = 'active-portfolio'
+export const CTA = 'cta'
 export const ROUTE_MAP = new Map([
-  [OVERVIEW, '/dashboard'],
   [TEMPLATE, '/dashboard/templates'],
   [SETTINGS, '/dashboard/settings'],
   [PROJECTS, '/dashboard/cms/projects'],
   [BLOGS, '/dashboard/cms/blogs'],
   [CHANGE_PASSWORD, '/dashboard/change-password'],
-  [ALL_PORTFOLIO, '/dashboard/all-portfolio'],
-  [ACTIVE_PORTFOLIO, '/dashboard/active-portfolio']
+  [ALL_PORTFOLIO, '/dashboard'],
+  [ACTIVE_PORTFOLIO, '/dashboard/active-portfolio'],
+  [CTA, '/dashboard/cms/cta']
 ])
 export const LOCALSTORAGE_KEY = 'templateData'
 export const EDITMODE_LOCALSTORAGE_KEY = 'editMode'

@@ -8,6 +8,7 @@
         <template v-if="isTemplate">
           <AboutUsCards
             v-for="index in 3"
+            cardType="blog"
             :key="index"
             :img="defaultBlogImages"
             :docId="`${index}`"
@@ -16,19 +17,20 @@
           />
         </template>
         <template v-else>
-          <div v-if="loading">
-            <Spinner />
-          </div>
-          <div v-else>
+          <template v-if="loading">
+            <Spinner class="col-start-2" />
+          </template>
+          <template v-else>
             <AboutUsCards
               v-for="(el, index) in postData"
+              cardType="blog"
               :img="el.img"
               :title="el.title"
               :details="el.abstract"
               :docId="el.$id"
               :key="index"
             />
-          </div>
+          </template>
         </template>
       </div>
       <div class="mt-4 center">

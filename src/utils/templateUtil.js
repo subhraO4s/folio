@@ -1,4 +1,5 @@
 import TemplateImage1 from '@/assets/images/meetup-3.jpg'
+import TemplateImage2 from '@/assets/images/restaurant.jpg'
 export const templateDetails = [
   {
     tid: 1,
@@ -169,6 +170,37 @@ export const templateDetails = [
             'Here are some of our interesting blogs which can help you in organizing your next event.'
         }
       },
+      ctaSection: {
+        show: true,
+        title: {
+          type: 'text',
+          show: true,
+          value: 'Contact Us'
+        },
+        input1: {
+          type: 'text',
+          show: true,
+          value: 'Enter Email.',
+          placeholder: 'Enter Your Email'
+        },
+        input2: {
+          type: 'text',
+          show: true,
+          value: 'Enter Phone No.',
+          placeholder: 'Enter Your Phone No'
+        },
+        input3: {
+          type: 'text',
+          show: true,
+          value: 'Enter Querry',
+          placeholder: 'Enter Your Querry'
+        },
+        ctaButton: {
+          type: 'text',
+          show: true,
+          value: 'Submit Querry'
+        }
+      },
       footer: {
         show: true,
         footerSection1: {
@@ -287,11 +319,11 @@ export const templateDetails = [
   },
   {
     tid: 2,
-    name: 'Digital agency',
-    title: 'Digital Marketing Agency and Design',
+    name: 'Michlen Star Restaurant',
+    title: 'Michlen Star Restaurant Website',
     details:
-      'A digital design agency website with dedicated blog and projects section and an amazing footer',
-    img: TemplateImage1,
+      'A Michlen star restaurant website with dedicated blog and projects section and an amazing footer',
+    img: TemplateImage2,
     templateLink: '/portfolio-templates/template-2',
     leftButtonAction: () => {
       window.open('/portfolio-templates/template-2', '_blank')
